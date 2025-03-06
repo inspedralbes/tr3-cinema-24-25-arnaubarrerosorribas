@@ -1,4 +1,5 @@
 'use client';
+import Swal from 'sweetalert2';
 import React, { useEffect, useState } from 'react';
 import { categoriasCCMM, publicarResposta } from "../../../plugins/communicationManager";
 
@@ -24,18 +25,19 @@ export default function AfegirPeliculaForm() {
         const formData = new FormData();
         formData.append("nombre_pelicula", nombre_pelicula);
         formData.append("descripcion", descripcion);
-        formData.append("categoria_id", categoria);
+        formData.append("categoria_id", categoria); // .append() per afegir al final de la llista (formData)
         if (imagen) {
             formData.append("imagen", imagen);
         }
 
         try {
             const response = await publicarResposta(formData);
-            console.log("Pelicula creada:", response);
-            alert("Pel·lícula creada correctament!");
+            Swal.fire({
+                title: "Pel·lícula creada correctament.",
+                icon: "success"
+            });
         } catch (error) {
             console.error("Error al crear la pel·lícula:", error);
-            alert("Error al crear la pel·lícula.");
         }
     };
 
@@ -45,7 +47,7 @@ export default function AfegirPeliculaForm() {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+            <form onSubmit={handleSubmit} className="w-[90%] mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
                 <div className="mb-4">
                     <label htmlFor="movieName" className="block text-sm font-medium text-gray-700">Nom de la pel·lícula</label>
                     <input type="text" id="movieName" placeholder="Nom de la pel·lícula"
