@@ -48,6 +48,26 @@ export const register = async (name, apellidos, email, password,password_confirm
     }
 };
 
+export const publicarResposta = async (formData) => {
+    try {
+        const response = await fetch(`${Host}/pelicules/publicar-pelicula`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};
+
 // ========= GET ========================
 export const peliculasDisponibles = async () => {
     try {

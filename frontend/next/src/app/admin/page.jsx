@@ -1,10 +1,9 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-
+import AfegirPeliculaForm from '../components/admin/afegir-pelicula/AfegirPeliculaForm';
 
 export default function Page() {
-    const afegirPelicula = dynamic(() => import('../components/admin/afegir-pelicula'))
     return (
         <div className="flex h-[100vh]">
             <aside id="sidebar" className="w-64 bg-gray-800">
@@ -39,7 +38,7 @@ export default function Page() {
             </aside>
 
             <div className="flex-grow p-4 h-[100vh] bg-gray-100">
-                < afegirPelicula />
+                <AfegirPeliculaForm />
             </div>
         </div>
     );

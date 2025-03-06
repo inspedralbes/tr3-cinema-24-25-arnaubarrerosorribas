@@ -58,7 +58,7 @@
             peliculas::create([
                 'nombre_pelicula' => $request->nombre_pelicula,
                 'categoria_id' => $request->categoria_id,
-                'disponible' => $request->disponible,
+                'disponible' => 0,
                 'imagen' => $rutaImagen,
                 'descripcion' => $request->descripcion,
             ]);
