@@ -8,6 +8,7 @@
             'disponible',
             'categoria_id',
             'imagen',
+            'descripcion',
         ];
 
         public function categoria(){

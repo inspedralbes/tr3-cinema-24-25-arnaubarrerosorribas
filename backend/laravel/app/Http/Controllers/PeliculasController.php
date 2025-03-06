@@ -55,11 +55,12 @@
                 $rutaImagen = $request->file('imagen')->store('peliculas', 'public');
             }
 
-            $pelicula = peliculas::create([
+            peliculas::create([
                 'nombre_pelicula' => $request->nombre_pelicula,
                 'categoria_id' => $request->categoria_id,
                 'disponible' => $request->disponible,
                 'imagen' => $rutaImagen,
+                'descripcion' => $request->descripcion,
             ]);
 
             return response()->json([
@@ -77,6 +78,7 @@
                                         "nombre_pelicula"=>$pelicula->nombre_pelicula,
                                         "categoria"=>$pelicula->categoria->categoria,
                                         "imagen"=>$pelicula->imagen,
+                                        "descripcion"=>$pelicula->descripcion,
                                     ];
                                 });
             return response()->json($pelicula);

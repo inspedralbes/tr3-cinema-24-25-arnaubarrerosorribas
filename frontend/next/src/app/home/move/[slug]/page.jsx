@@ -1,4 +1,5 @@
 'use client';
+const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { peliculaSeleccionada } from '../../../plugins/communicationManager';
@@ -12,7 +13,6 @@ export default function Page() {
         try {
             const response = await peliculaSeleccionada(slug);
             setVarPeliculaSeleccionada(response);
-            console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -24,5 +24,22 @@ export default function Page() {
         }
     }, [slug]); // Activar el useEffect cuando haya un cambio en "slug"
 
-    return <h1>varPeliculaSeleccionada</h1>
+    return (
+        <>
+            {varPeliculaSeleccionada.map((pelicula, index) => (
+                <div key={index}>
+                    <img src={`${varPelicula}${pelicula.imagen}`} alt="" />
+                    <p>
+                        Pelicula: {pelicula.nombre_pelicula}
+                    </p>
+                    <p>
+                        Categoria: {pelicula.categoria}
+                    </p>
+                    <p>
+                        Descripcion: {pelicula.descripcion}
+                    </p>
+                </div>
+            ))}
+        </>
+    )
 }

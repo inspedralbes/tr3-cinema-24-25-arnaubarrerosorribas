@@ -14,6 +14,7 @@
                 $table->foreign("categoria_id")->references('id')->on("categories")->onDelete("cascade");
 
                 $table->string("imagen")->nullable();
+                $table->string("descripcion", 1000);
                 $table->timestamps();
             });
         }
