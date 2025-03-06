@@ -6,7 +6,7 @@ import { peliculaSeleccionada } from '../../../plugins/communicationManager';
 
 
 export default function Page() {
-    const { slug } = useParams();
+    const { slug } = useParams(); // Agafar parametre de la URL
     const [varPeliculaSeleccionada, setVarPeliculaSeleccionada] = useState([]);
 
     const fetchPeliculaConcreta = async () => {
@@ -45,11 +45,11 @@ export default function Page() {
                         </h1>
 
                         <p className="text-gray-400 text-lg mb-2">
-                            <span className="font-semibold text-blue-500">Categoría:</span> {pelicula.categoria}
+                            <span className="font-semibold text-blue-500">Categoria:</span> {pelicula.categoria}
                         </p>
 
                         <p className="text-gray-300 text-lg">
-                            <span className="font-semibold text-blue-500">Descripción:</span> {pelicula.descripcion}
+                            <span className="font-semibold text-blue-500">Descripció:</span> {pelicula.descripcion}
                         </p>
 
                         <button className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-300 mt-[30px]">

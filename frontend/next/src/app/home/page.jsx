@@ -82,7 +82,7 @@ export default function CatalogPelicules() {
 
 
                 {loading ? (
-                    <p className="text-blue-400 text-center">Cargando...</p>
+                    <p className="text-blue-400 text-center">Carregant...</p>
                 ) : peliculasFiltradas.length > 0 ? (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -109,7 +109,7 @@ export default function CatalogPelicules() {
                         </div>
                     </>
                 ) : (
-                    <p className="text-white text-center">No hay películas disponibles.</p>
+                    <p className="text-white text-center">No hi ha pel·lícules disponibles.</p>
                 )}
             </div>
         </div>

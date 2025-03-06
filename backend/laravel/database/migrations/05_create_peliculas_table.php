@@ -8,7 +8,7 @@
             Schema::create('peliculas', function (Blueprint $table) {
                 $table->id();
                 $table->string("nombre_pelicula");
-                $table->boolean("disponible");
+                $table->boolean("disponible")->default(false);
 
                 $table->unsignedBigInteger("categoria_id");
                 $table->foreign("categoria_id")->references('id')->on("categories")->onDelete("cascade");
