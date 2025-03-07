@@ -68,6 +68,25 @@ export const publicarResposta = async (formData) => {
     }
 };
 
+export const eliminarPelicula = async (index) => {
+    try {
+        const response = await fetch(`${Host}/pelicules/eliminar/${index}`, {
+            method: 'POST',
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};
+
 // ========= GET ========================
 export const peliculasDisponibles = async () => {
     try {
@@ -160,6 +179,28 @@ export const peliculaSeleccionada = async (index) => {
 export const peliculas = async () => {
     try {
         const response = await fetch(`${Host}/pelicules/cataleg`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};
+
+export const totesPeliculas = async () => {
+    try {
+        const response = await fetch(`${Host}/pelicules/totes_pelicules`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

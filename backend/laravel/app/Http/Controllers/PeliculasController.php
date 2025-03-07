@@ -12,6 +12,20 @@
             return response()->json($peliculas);
         }
 
+        public function totesPelicules() {
+            $peliculas = peliculas::with('categoria')
+                        ->get()
+                        ->map(function ($pelicula){
+                            return [
+                                "id"=>$pelicula->id,
+                                "nombre_pelicula"=>$pelicula->nombre_pelicula,
+                                "categoria"=>$pelicula->categoria,
+                                "disponible"=>$pelicula->disponible
+                            ];
+                        });
+            return response()->json($peliculas);
+        }
+
         public function peliculesDisponibles() {
             $peliculas = peliculas::where('disponible', 1)->get();
             return response()->json($peliculas);
@@ -82,5 +96,10 @@
                                     ];
                                 });
             return response()->json($pelicula);
+        }
+
+        public function eliminar($id) {
+            $eliminarPelicula = peliculas::where('id',$id)->delete();
+            return response()->json("Pel·lícula eliminada correctament");
         }
     }
