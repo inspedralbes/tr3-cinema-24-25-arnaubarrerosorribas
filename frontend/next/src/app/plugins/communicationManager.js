@@ -87,6 +87,29 @@ export const eliminarPelicula = async (index) => {
     }
 };
 
+export const publicarModificacions = async (formData) => {
+    try {
+        const response = await fetch(`${Host}/pelicules/modificacions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};
+
 // ========= GET ========================
 export const peliculasDisponibles = async () => {
     try {

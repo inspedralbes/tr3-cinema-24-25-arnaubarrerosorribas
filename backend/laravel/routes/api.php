@@ -18,13 +18,15 @@
         Route::get('cataleg', [PeliculasController::class, 'index']);
         Route::get('totes_pelicules', [PeliculasController::class, 'totesPelicules']);
         Route::get('seleccionada/{id}', [PeliculasController::class, 'seleccionada']);
-        Route::post('publicar-pelicula', [PeliculasController::class, 'publicarPelicula']);
         Route::get('cateleg-disponibles', [PeliculasController::class, 'peliculesDisponibles']);
         Route::get('cateleg-descatalogades', [PeliculasController::class, 'peliculesDescatalogadas']);
         Route::get('pelicules-disp-categ', [PeliculasController::class, 'peliculesDisponiblesCategorias']);
 
         // ===== POST =================
         Route::post('/eliminar/{id}', [PeliculasController::class, 'eliminar']);
+        Route::post('modificacions', [PeliculasController::class, 'modificacions']);
+        Route::post('publicar-pelicula', [PeliculasController::class, 'publicarPelicula']);
+
     });
 
     Route::prefix('categorias')->group(function (){

@@ -102,4 +102,27 @@
             $eliminarPelicula = peliculas::where('id',$id)->delete();
             return response()->json("Pel·lícula eliminada correctament");
         }
+
+        public function modificacions(Request $request) {
+            $pelicula = peliculas::find($request->id);
+
+            if (!$pelicula) {
+                return response()->json([
+                    'success' => false,
+                    'misatge' => 'Pel·lícula no trobada',
+                ], 404);
+            }
+
+            $pelicula -> nombre_pelicula = $request -> nombre_pelicula;
+            $pelicula -> categoria_id = $request -> categoria_id;
+            $pelicula -> disponible = $request -> disponible;
+
+            $pelicula -> save();
+
+            return response()->json([
+                'success' => true,
+                'misatge' => 'Pel·lícula actualitzada',
+                'data' => $pelicula,
+            ], 200);
+        }
     }
