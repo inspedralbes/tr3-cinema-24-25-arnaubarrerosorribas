@@ -2,12 +2,12 @@
 import Swal from 'sweetalert2';
 import Image from "next/image";
 import React, { useEffect, useState } from 'react';
-import { totesPeliculas, eliminarPelicula } from "../../../plugins/communicationManager";
+import { totesPeliculas } from "../../../plugins/communicationManager";
 
 export default function EliminarPeliculaForm() {
     const [loading, setLoading] = useState(true);
     const [peliculas, setPeliculas] = useState("");
-
+    
     const fetchPeliculas = async () => {
         try {
             const response = await totesPeliculas();
@@ -18,19 +18,6 @@ export default function EliminarPeliculaForm() {
             setLoading(false)
         }
     };
-
-    const eliminarPeliculaFetch = async (index) => {
-        try {
-            const response = await eliminarPelicula(index);
-            Swal.fire({
-                title: "Pel·lícula eliminada correctament.",
-                icon: "success"
-            });
-        } catch (error) {
-            console.error(error);
-        }
-        console.log(index)
-    }
 
     useEffect(() => {
         fetchPeliculas();
@@ -53,7 +40,7 @@ export default function EliminarPeliculaForm() {
                                         <h2 className="text-xl font-semibold text-blue-900">
                                             {pelicula.nombre_pelicula}
                                         </h2>
-                                        
+
                                     </div>
 
                                     <div className="flex items-center gap-6">
@@ -77,12 +64,12 @@ export default function EliminarPeliculaForm() {
                                             )}
                                         </div>
 
+
                                         <button
-                                            onClick={() => eliminarPeliculaFetch(index)}
-                                            className="flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-lg transition-colors duration-200"
+                                            className="flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors duration-200"
                                         >
-                                            <Image src="/trash.svg" alt="Trash Icon" width={20} height={20} />
-                                            <span>Eliminar</span>
+                                            <Image src="/pen.svg" alt="Trash Icon" width={20} height={20} />
+                                            <span>Modificar</span>
                                         </button>
                                     </div>
                                 </div>

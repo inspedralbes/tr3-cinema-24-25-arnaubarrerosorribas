@@ -3,13 +3,13 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import AfegirPeliculaForm from '../components/admin/afegir-pelicula/AfegirPeliculaForm';
 import EliminarPeliculaForm from '../components/admin/eliminar-pelicula/EliminarPelicula';
+import ModificarPeliculaForm from '../components/admin/modificar-pelicula/ModificarPelicula';
 
 export default function Page() {
     const OcultarFuncionalitats = () => {
         document.getElementById("idAfegirPelicula").style.display = "none";
-        // document.getElementById("idEliminarPelicula").style.display = "none";
+        document.getElementById("idEliminarPelicula").style.display = "none";
         document.getElementById("idModificarPelicula").style.display = "none";
-        document.getElementById("idModificarVisivilitat").style.display = "none";
     };
     const mostrarAfegirPelicula = () => {
         OcultarFuncionalitats();
@@ -22,10 +22,6 @@ export default function Page() {
     const mostrarModificarPelicula = () => {
         OcultarFuncionalitats();
         document.getElementById("idModificarPelicula").style.display = "block";
-    };
-    const mostrarModificarVisivilitat = () => {
-        OcultarFuncionalitats();
-        document.getElementById("idModificarVisivilitat").style.display = "block";
     };
 
     useEffect(() => {
@@ -47,7 +43,7 @@ export default function Page() {
                             <span className="sidebar-text ml-[10px]">Afegir Pel·lícula</span>
                         </p>
 
-                        <p className="mb-[10px] group flex items-center px-2 py-2 text-base font-medium rounded-md text-white cursor-pointer hover:bg-gray-600 transition-[2s]">
+                        <p onClick={() => mostrarModificarPelicula()} className="mb-[10px] group flex items-center px-2 py-2 text-base font-medium rounded-md text-white cursor-pointer hover:bg-gray-600 transition-[2s]">
                             <img width="20" height="20" src="https://img.icons8.com/ios/50/FFFFFF/edit--v1.png" alt="edit--v1" />
                             <span className="sidebar-text ml-[10px]">Modificar Pel·lícula</span>
                         </p>
@@ -57,10 +53,6 @@ export default function Page() {
                             <span className="sidebar-text ml-[10px]">Eliminar Pel·lícula</span>
                         </p>
 
-                        <p className="mb-[10px] group flex items-center px-2 py-2 text-base font-medium rounded-md text-white cursor-pointer hover:bg-gray-600 transition-[2s]">
-                            <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/FFFFFF/eye-checked.png" alt="eye-checked" />
-                            <span className="sidebar-text ml-[10px]">Modificar Visibilitat</span>
-                        </p>
                     </div>
                 </nav>
             </aside>
@@ -71,13 +63,11 @@ export default function Page() {
                 </div>
 
                 <div id='idModificarPelicula'>
+                    < ModificarPeliculaForm />
                 </div>
 
                 <div id="idEliminarPelicula">
                     <EliminarPeliculaForm />
-                </div>
-
-                <div id='idModificarVisivilitat'>
                 </div>
             </div>
         </div>
