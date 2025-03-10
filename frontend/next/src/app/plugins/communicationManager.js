@@ -242,3 +242,25 @@ export const totesPeliculas = async () => {
         throw error;
     }
 };
+
+export const PeliculasOcupadasPelicula = async (id) => {
+    try {
+        const response = await fetch(`${Host}/entradas/getButacasPelicula/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};

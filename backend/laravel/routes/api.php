@@ -2,6 +2,7 @@
     use Illuminate\Support\Facades\Route;
     use App\Http\Controllers\PeliculasController;
     use App\Http\Controllers\CategoriesController;
+    Use App\Http\Controllers\EntradasCompradasController;
     use App\Http\Controllers\auth\LoginRegisterController;
 
     Route::prefix('autentificacio')->group(function () {
@@ -26,7 +27,10 @@
         Route::post('/eliminar/{id}', [PeliculasController::class, 'eliminar']);
         Route::post('modificacions', [PeliculasController::class, 'modificacions']);
         Route::post('publicar-pelicula', [PeliculasController::class, 'publicarPelicula']);
+    });
 
+    Route::prefix('entradas')->group(function () {
+        Route::get('getButacasPelicula/{id}', [EntradasCompradasController::class, 'PeliculasOcupadasPelicula']);
     });
 
     Route::prefix('categorias')->group(function (){

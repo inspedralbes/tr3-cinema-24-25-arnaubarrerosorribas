@@ -6,7 +6,9 @@
 
     class DatabaseSeeder extends Seeder {
         public function run(): void {
+            $this->call(users::class);
             $this->call(CategoriasTableSeeder::class);
             $this->call(PeliculasTableSeeder::class);
+            $this->call(EntradasCompradasTableSeeder::class);
         }
     }
