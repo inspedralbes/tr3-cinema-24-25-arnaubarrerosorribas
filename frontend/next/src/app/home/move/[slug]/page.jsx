@@ -19,7 +19,7 @@ export default function Page() {
     };
 
     const cerrarSala = () => {
-        setMostrarButacas(false); // Función para cerrar la sala
+        setMostrarButacas(false); 
     };
 
     const fetchPeliculaConcreta = async () => {
@@ -37,9 +37,9 @@ export default function Page() {
             setVarButacasOcupadas(response);
             console.log(response);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const seleccionarButaca = (rowIndex, colIndex) => {
         const butaca = `${rowIndex}-${colIndex}`;
@@ -48,6 +48,13 @@ export default function Page() {
         } else {
             setButacasSeleccionadas([...butacasSeleccionadas, butaca]);
         }
+    };
+
+    // Verificar si la butaca esta ocupada
+    const estaOcupada = (rowIndex, colIndex) => {
+        return varButacasOcupadas.some(
+            (butaca) => butaca.fila === rowIndex && butaca.columna === colIndex
+        );
     };
 
     useEffect(() => {
@@ -95,7 +102,7 @@ export default function Page() {
             {mostrarButacas && (
                 <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
                     <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl overflow-y-auto">
-                        <button onClick={cerrarSala} className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 mb-4" >
+                        <button onClick={cerrarSala} className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 mb-4">
                             X
                         </button>
 
@@ -109,11 +116,13 @@ export default function Page() {
                                     {Array.from({ length: colum }).map((_, colIndex) => {
                                         const butaca = `${rowIndex}-${colIndex}`;
                                         const estaSeleccionada = butacasSeleccionadas.includes(butaca);
+                                        const esOcupada = estaOcupada(rowIndex, colIndex);
+                                        
                                         return (
                                             <div
                                                 key={colIndex}
-                                                className="cursor-pointer"
-                                                onClick={() => seleccionarButaca(rowIndex, colIndex)}
+                                                className={`cursor-pointer ${esOcupada ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                onClick={() => !esOcupada && seleccionarButaca(rowIndex, colIndex)}
                                             >
                                                 <Image
                                                     src="/seat.svg"
@@ -121,7 +130,13 @@ export default function Page() {
                                                     height={40}
                                                     alt="Butaca"
                                                     className=""
-                                                    style={{ filter: estaSeleccionada ? 'invert(70%) sepia(99%) saturate(9000%)' : 'none' }}
+                                                    style={{
+                                                        filter: esOcupada
+                                                            ? 'invert(10%) sepia(10%) saturate(9000%)'
+                                                            : estaSeleccionada
+                                                            ? 'invert(70%) sepia(99%) saturate(9000%)'
+                                                            : 'none',
+                                                    }}
                                                 />
                                             </div>
                                         );
