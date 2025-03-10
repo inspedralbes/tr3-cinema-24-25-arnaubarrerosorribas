@@ -35,7 +35,6 @@ export default function Page() {
         try {
             const response = await PeliculasOcupadasPelicula(slug);
             setVarButacasOcupadas(response);
-            console.log(response);
         } catch (error) {
             console.log(error);
         }
