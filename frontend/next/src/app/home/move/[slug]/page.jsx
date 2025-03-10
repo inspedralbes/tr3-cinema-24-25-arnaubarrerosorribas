@@ -3,7 +3,7 @@ const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { peliculaSeleccionada,PeliculasOcupadasPelicula } from '../../../plugins/communicationManager';
+import { peliculaSeleccionada, PeliculasOcupadasPelicula } from '../../../plugins/communicationManager';
 
 export default function Page() {
     const filas = 12;
@@ -110,8 +110,19 @@ export default function Page() {
                                         const butaca = `${rowIndex}-${colIndex}`;
                                         const estaSeleccionada = butacasSeleccionadas.includes(butaca);
                                         return (
-                                            <div key={colIndex} className={`cursor-pointer ${estaSeleccionada ? 'filter brightness-50' : ''}`} onClick={() => seleccionarButaca(rowIndex, colIndex)} >
-                                                <Image src="/seat.svg" width={40} height={40} alt="Butaca" className={`${estaSeleccionada ? 'filter brightness-0 invert' : ''}`} />
+                                            <div
+                                                key={colIndex}
+                                                className="cursor-pointer"
+                                                onClick={() => seleccionarButaca(rowIndex, colIndex)}
+                                            >
+                                                <Image
+                                                    src="/seat.svg"
+                                                    width={40}
+                                                    height={40}
+                                                    alt="Butaca"
+                                                    className=""
+                                                    style={{ filter: estaSeleccionada ? 'invert(70%) sepia(99%) saturate(9000%)' : 'none' }}
+                                                />
                                             </div>
                                         );
                                     })}
