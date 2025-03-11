@@ -42,6 +42,7 @@ export default function CatalogPelicules() {
     };
 
     const reedireccionar = (index) => {
+        index++;
         router.push(`/home/move/${index}`)
     }
 

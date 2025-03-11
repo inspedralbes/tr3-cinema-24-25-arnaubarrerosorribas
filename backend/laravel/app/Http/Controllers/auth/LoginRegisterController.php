@@ -111,10 +111,9 @@
             $token = $cliente->createToken('API Token')->plainTextToken;
 
             return response()->json([
-                'message' => 'Inicio de sesión exitoso.',
                 'user' => $cliente,
                 'token' => $token,
-                'comercio' => $comercio,
+                // 'user' => $$cliente->id,
             ], 200);
         }
     }

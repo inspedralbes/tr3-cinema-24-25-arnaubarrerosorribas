@@ -107,6 +107,9 @@ export default function Page() {
 
                         <div className="text-center mb-6">
                             <Image src="/screen.svg" width={800} height={100} alt="Pantalla" className="mx-auto" />
+                            <p className='border border-white border-solid color-white-900 mt-[100px]' onClick={() => console.log(butacasSeleccionadas)}>
+                                Veure butaques seleccionades
+                            </p>
                         </div>
 
                         <div className="flex flex-col gap-2">
@@ -118,24 +121,9 @@ export default function Page() {
                                         const esOcupada = estaOcupada(rowIndex, colIndex);
                                         
                                         return (
-                                            <div
-                                                key={colIndex}
-                                                className={`cursor-pointer ${esOcupada ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                                onClick={() => !esOcupada && seleccionarButaca(rowIndex, colIndex)}
-                                            >
-                                                <Image
-                                                    src="/seat.svg"
-                                                    width={40}
-                                                    height={40}
-                                                    alt="Butaca"
-                                                    className=""
-                                                    style={{
-                                                        filter: esOcupada
-                                                            ? 'invert(10%) sepia(10%) saturate(9000%)'
-                                                            : estaSeleccionada
-                                                            ? 'invert(70%) sepia(99%) saturate(9000%)'
-                                                            : 'none',
-                                                    }}
+                                            <div key={colIndex} className={`cursor-pointer ${esOcupada ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={() => !esOcupada && seleccionarButaca(rowIndex, colIndex)} >
+                                                <Image src="/seat.svg" width={40} height={40} alt="Butaca" className=""
+                                                    style={{ filter: esOcupada ? 'invert(10%) sepia(10%) saturate(9000%)' : estaSeleccionada ? 'invert(70%) sepia(99%) saturate(9000%)' : 'none', }}
                                                 />
                                             </div>
                                         );
