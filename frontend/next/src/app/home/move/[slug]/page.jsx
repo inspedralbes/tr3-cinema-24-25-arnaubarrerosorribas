@@ -3,7 +3,7 @@ const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { peliculaSeleccionada, PeliculasOcupadasPelicula } from '../../../plugins/communicationManager';
+import { peliculaSeleccionada,PeliculasOcupadasPelicula,CompraEntradas } from '../../../plugins/communicationManager';
 
 export default function Page() {
     const filas = 12;
@@ -19,7 +19,7 @@ export default function Page() {
     };
 
     const cerrarSala = () => {
-        setMostrarButacas(false); 
+        setMostrarButacas(false);
     };
 
     const fetchPeliculaConcreta = async () => {
@@ -40,21 +40,40 @@ export default function Page() {
         }
     };
 
-    const seleccionarButaca = (rowIndex, colIndex) => {
-        const butaca = `${rowIndex}-${colIndex}`;
+    const ferReserva = async () => {
+        const idUser = localStorage.getItem('user ID');
+        const data = {
+            idUser,
+            pelicula: slug,
+            butacas: butacasSeleccionadas.map(butaca => {
+                const [fila,columna]=butaca.split('-').map(Number); // Contruir el format de l'array per enviar
+                return {fila,columna}
+            })
+        }; console.log(data);
+
+        try {
+            const response = await CompraEntradas(data);
+            console.log(response)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const seleccionarButaca = (fila, columna) => {
+        const butaca = `${fila}-${columna}`;
         if (butacasSeleccionadas.includes(butaca)) {
             setButacasSeleccionadas(butacasSeleccionadas.filter((b) => b !== butaca));
         } else {
             setButacasSeleccionadas([...butacasSeleccionadas, butaca]);
         }
-    };
+    };    
 
     // Verificar si la butaca esta ocupada
-    const estaOcupada = (rowIndex, colIndex) => {
+    const estaOcupada = (fila, columna) => {
         return varButacasOcupadas.some(
-            (butaca) => butaca.fila === rowIndex && butaca.columna === colIndex
+            (butaca) => butaca.fila === fila && butaca.columna === columna
         );
-    };
+    };    
 
     useEffect(() => {
         if (slug) {
@@ -107,8 +126,8 @@ export default function Page() {
 
                         <div className="text-center mb-6">
                             <Image src="/screen.svg" width={800} height={100} alt="Pantalla" className="mx-auto" />
-                            <p className='border border-white border-solid color-white-900 mt-[100px]' onClick={() => console.log(butacasSeleccionadas)}>
-                                Veure butaques seleccionades
+                            <p className='border border-white border-solid color-white-900 mt-[100px]' onClick={() => ferReserva()}>
+                                Finalitzar i comprar
                             </p>
                         </div>
 
@@ -116,13 +135,15 @@ export default function Page() {
                             {Array.from({ length: filas }).map((_, rowIndex) => (
                                 <div key={rowIndex} className="flex gap-2 justify-center">
                                     {Array.from({ length: colum }).map((_, colIndex) => {
-                                        const butaca = `${rowIndex}-${colIndex}`;
+                                        const fila = rowIndex + 1;
+                                        const columna = colIndex + 1;
+                                        const butaca = `${fila}-${columna}`;
                                         const estaSeleccionada = butacasSeleccionadas.includes(butaca);
-                                        const esOcupada = estaOcupada(rowIndex, colIndex);
-                                        
+                                        const esOcupada = estaOcupada(fila, columna);
+
                                         return (
-                                            <div key={colIndex} className={`cursor-pointer ${esOcupada ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={() => !esOcupada && seleccionarButaca(rowIndex, colIndex)} >
-                                                <Image src="/seat.svg" width={40} height={40} alt="Butaca" className=""
+                                            <div key={columna} className={`cursor-pointer ${esOcupada ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={() => !esOcupada && seleccionarButaca(fila, columna)} >
+                                                <Image src="/seat.svg" width={40} height={40} alt="Butaca"
                                                     style={{ filter: esOcupada ? 'invert(10%) sepia(10%) saturate(9000%)' : estaSeleccionada ? 'invert(70%) sepia(99%) saturate(9000%)' : 'none', }}
                                                 />
                                             </div>
@@ -130,6 +151,7 @@ export default function Page() {
                                     })}
                                 </div>
                             ))}
+
                         </div>
                     </div>
                 </div>

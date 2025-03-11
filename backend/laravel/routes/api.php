@@ -30,6 +30,7 @@
     });
 
     Route::prefix('entradas')->group(function () {
+        Route::post('fer-compra', [EntradasCompradasController::class, 'fer_compra']);
         Route::get('getButacasPelicula/{id}', [EntradasCompradasController::class, 'PeliculasOcupadasPelicula']);
     });
 

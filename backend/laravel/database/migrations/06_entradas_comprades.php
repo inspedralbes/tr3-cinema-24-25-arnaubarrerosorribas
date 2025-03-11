@@ -16,6 +16,8 @@
 
                 $table->integer("fila");
                 $table->integer("columna");
+                $table->timestamp("updated_at")->nullable();
+                $table->timestamp("created_at")->nullable();
             });
 
         }
