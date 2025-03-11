@@ -1,9 +1,10 @@
 <?php
     namespace App\Http\Controllers;
-
+    use App\Models\User;
+    use Illuminate\Http\Request;
     use App\Models\EntradasCompradas;
     use App\Http\Controllers\Controller;
-    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Mail;
 
     class EntradasCompradasController extends Controller {
         public function PeliculasOcupadasPelicula($id) {
@@ -19,7 +20,9 @@
         }
 
         public function fer_compra(Request $request) {
-            // GET NAME & EMAIL CLIENT
+            $email_cliente = User::select('email')
+                                ->where('id', $request->idUser)
+                                ->first();
             
             // Fer bucle perquè hi han més d'una fila y butaca per usuari
             foreach ($request->butacas as $butaca){
@@ -31,10 +34,12 @@
                 ]);
             }
 
-            // SEND ON HIS EMAIL THE TICKETS
+            Mail::send('tickets.ticket', [], function ($message) use ($email_cliente) {
+                $message->to($email_cliente->email)
+                    ->subject('Ticket | Cines Pedralbes');
+            });
 
-            return response()->json([
-                'Missatge' => 'Pel·licula creada correctament.',
-            ], 201);
+
+            return response()->json($email_cliente, 201);
         }
     }
