@@ -23,8 +23,7 @@ class EntradasCompradasController extends Controller
         return response()->json($butacas);
     }
 
-    public function fer_compra(Request $request)
-    {
+    public function fer_compra(Request $request) {
         $email_cliente = User::select('email')
             ->where('id', $request->idUser)
             ->first();
