@@ -7,6 +7,7 @@
         public function up(): void {
             Schema::create('entradas_compradas', function (Blueprint $table) {
                 $table->id();
+                $table->integer("id_compra_conjunta");
                 
                 $table->unsignedBigInteger("pelicula_id");
                 $table->foreign("pelicula_id")->references('id')->on("peliculas")->onDelete("cascade");

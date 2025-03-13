@@ -7,15 +7,17 @@ export default function CatalogPelicules() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [infoUsuari, setInfoUsuari] = useState([]);
+    const [error, setError] = useState(null);
 
     const userInfoFetch = async (storedParam) => {
         try {
             const response = await userInfo(storedParam);
             setInfoUsuari(response);
-            setLoading(false); // Desactivar el estado de carga
+            console.log(response);
         } catch (error) {
-            alert("Error al obtener datos");
-            setLoading(false); // Desactivar el estado de carga incluso si hay un error
+            setError("Error al obtener datos");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -28,6 +30,15 @@ export default function CatalogPelicules() {
         }
     }, [router]);
 
+    const groupByCompraConjunta = (data) => {
+        return data.reduce((acc, entrada) => {
+            const key = entrada.id_compra_conjunta || 'sin_id';
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(entrada);
+            return acc;
+        }, {});
+    };
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen bg-gray-900">
@@ -36,29 +47,16 @@ export default function CatalogPelicules() {
         );
     }
 
-    return (
-        <div className="min-h-screen bg-gray-900 py-8">
-            <div className="max-w-4xl mx-auto px-4">
-                <h1 className="text-3xl font-bold text-blue-500 mb-6">Informació d'usuari</h1>
-                <h2 className="text-2xl font-semibold text-white mb-6">Llistat d'entrades</h2>
-
-                {infoUsuari.length > 0 ? (
-                    <div className="space-y-6">
-                        {infoUsuari.map((entrada, index) => (
-                            <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                                <h3 className="text-xl font-bold text-blue-400 mb-2">
-                                    Pel·lícula: {entrada.pelicula}
-                                </h3>
-                                <p className="text-gray-300">
-                                    Butaca: Fila {entrada.butaca.fila}, Columna {entrada.butaca.columna}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-gray-300">No se encontraron entradas.</p>
-                )}
+    if (error) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-gray-900 text-red-500">
+                <p>{error}</p>
             </div>
-        </div>
+        );
+    }
+
+    return (
+        <>
+        </>
     );
 }

@@ -4,6 +4,7 @@
 
     class EntradasCompradas extends Model {
         protected $fillable = [
+            'id_compra_conjunta',
             'pelicula_id',
             'cliente_id',
             'fila',
