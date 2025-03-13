@@ -1,5 +1,6 @@
 'use client';
 const VarPelicula = process.env.NEXT_PUBLIC_IMAGES;
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { peliculasDisponiblesAmbCategoria, categoriasCCMM } from '../plugins/communicationManager';
@@ -52,14 +53,20 @@ export default function CatalogPelicules() {
     });
 
     useEffect(() => {
-        fetchCategorias();
-        fetchPeliculas();
+        const storedParam = localStorage.getItem('Login Token');
+        if (storedParam != null) {
+            fetchCategorias();
+            fetchPeliculas();
+        } else (
+            router.push('/user/login')
+        )
     });
 
     return (
         <div className="bg-black min-h-screen p-6">
             <h1 className="text-center text-3xl font-bold text-white mb-6">Tauler de cartellera</h1>
             <div className="bg-black p-4 rounded-lg max-w-[1250px] m-auto">
+                <Image onClick={() => router.push('/user')} className='fixed bottom-10 right-5 bg-black rounded-[100%]' src="/user.svg" width={60} height={60} alt="User img" />
 
                 <div className='flex items-center'>
                     <select
@@ -97,9 +104,9 @@ export default function CatalogPelicules() {
                                     <div className="mt-4">
                                         <p className="text-white font-semibold">Nombre Pelicula: {pelicula.nombre_pelicula} </p>
                                         <p className="text-blue-400">Categoria: {pelicula.id_categoria.categoria} </p>
-                                        <button 
-                                            className="mt-3 w-full bg-blue-400 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-300" 
-                                            onClick={() => reedireccionar(index) }
+                                        <button
+                                            className="mt-3 w-full bg-blue-400 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-300"
+                                            onClick={() => reedireccionar(index)}
                                         >
                                             Comprar una entrada
                                         </button>

@@ -15,6 +15,6 @@
         }
 
         public function pelicula(){
-            return $this -> hasOne(peliculas::class, 'cliente_id');
+            return $this -> belongsTo(peliculas::class, 'pelicula_id');
         }
     }

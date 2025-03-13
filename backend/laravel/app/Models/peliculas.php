@@ -14,4 +14,8 @@
         public function categoria(){
             return $this -> belongsTo(categories::class, 'categoria_id');
         }
+
+        public function entradasCompradas() {
+            return $this -> hasMany(EntradasCompradas::class, 'pelicula_id');
+        }
     }

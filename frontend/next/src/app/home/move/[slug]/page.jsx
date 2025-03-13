@@ -76,9 +76,12 @@ export default function Page() {
     };
 
     useEffect(() => {
-        if (slug) {
+        const storedParam = localStorage.getItem('Login Token');
+        if (slug && storedParam != null) {
             fetchPeliculaConcreta(slug);
             fetchButacasOcupadas(slug);
+        } else {
+            router.push('/user/login')
         }
     }, [slug]);
 

@@ -1,5 +1,6 @@
 <?php
     use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\UserController;
     use App\Http\Controllers\PeliculasController;
     use App\Http\Controllers\CategoriesController;
     Use App\Http\Controllers\EntradasCompradasController;
@@ -36,4 +37,8 @@
 
     Route::prefix('categorias')->group(function (){
         Route::get('/', [CategoriesController::class, 'index']);
+    });
+
+    Route::prefix('user')->group(function (){
+        Route::middleware('auth:sanctum')->get('info', [UserController::class, 'index']);
     });
