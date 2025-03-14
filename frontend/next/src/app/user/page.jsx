@@ -1,19 +1,19 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { userInfo } from '../plugins/communicationManager';
+import { userInfo, isAdminFetch } from '../plugins/communicationManager';
 
 export default function CatalogPelicules() {
     const router = useRouter();
+    const [admin, setAdmin] = useState(false);
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [infoUsuari, setInfoUsuari] = useState({});
-    const [error, setError] = useState(null);
 
     const userInfoFetch = async (storedParam) => {
         try {
             const response = await userInfo(storedParam);
             setInfoUsuari(response);
-            console.log(response);
         } catch (error) {
             setError("Error al obtener datos");
         } finally {
@@ -21,10 +21,20 @@ export default function CatalogPelicules() {
         }
     };
 
+    const verificarAdmin = async (storedParam) => {
+        try {
+            const response = await isAdminFetch(storedParam);
+            setAdmin(response === true);
+        } catch (error) {
+            console.error("Error al verificar si es admin:", error);
+        }
+    };
+
     useEffect(() => {
         const storedParam = localStorage.getItem('Login Token');
         if (storedParam) {
             userInfoFetch(storedParam);
+            verificarAdmin(storedParam);
         } else {
             router.push('/user/login');
         }
@@ -68,6 +78,18 @@ export default function CatalogPelicules() {
     return (
         <div className="bg-gray-900 min-h-screen p-8">
             <h1 className="text-3xl font-bold text-center text-white mb-8">Compres realitzades</h1>
+
+            {admin && (
+                <div className="mb-6 text-center">
+                    <button
+                        onClick={() => router.push('/admin')}
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Ir al panel de administración
+                    </button>
+                </div>
+            )}
+
             <div className="space-y-6">
                 {Object.keys(groupedData).map((idCompraConjunta) => (
                     <div key={idCompraConjunta} className="bg-gray-800 rounded-lg shadow-lg p-6">

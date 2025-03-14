@@ -30,7 +30,6 @@ export default function Page() {
             router.push('/user/login');
         }
     };
-    
 
     const OcultarFuncionalitats = () => {
         document.getElementById("idAfegirPelicula").style.display = "none";
