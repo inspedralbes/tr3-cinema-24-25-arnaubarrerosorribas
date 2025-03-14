@@ -104,9 +104,10 @@ export default function CatalogPelicules() {
                                     <div className="mt-4">
                                         <p className="text-white font-semibold">Nombre Pelicula: {pelicula.nombre_pelicula} </p>
                                         <p className="text-blue-400">Categoria: {pelicula.id_categoria.categoria} </p>
+                                        <p className='text-blue-400'>Data: {new Date(pelicula.data).toLocaleDateString('es-ES')}</p>
                                         <button
                                             className="mt-3 w-full bg-blue-400 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-300"
-                                            onClick={() => reedireccionar(index)}
+                                            onClick={() => reedireccionar(pelicula.id-1)}
                                         >
                                             Comprar una entrada
                                         </button>

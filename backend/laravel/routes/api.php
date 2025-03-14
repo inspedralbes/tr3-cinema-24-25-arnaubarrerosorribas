@@ -13,6 +13,7 @@
         Route::middleware('auth:sanctum')->post('change-password', [LoginRegisterController::class, 'changePassword']);
     });
 
+    Route::middleware('auth:sanctum')->get('/autentificacio/esAdmin', [UserController::class, 'esAdmin']);
     Route::get('verify-email/{id}/{hash}', [LoginRegisterController::class, 'verifyEmail'])->name('verify.email');
 
     Route::prefix('pelicules')->group(function () {

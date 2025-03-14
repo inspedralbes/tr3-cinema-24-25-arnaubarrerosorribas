@@ -102,6 +102,9 @@ export default function Page() {
                         <p className="text-gray-400 text-lg mb-2">
                             <span className="font-semibold text-blue-500">Categoria:</span> {pelicula.categoria}
                         </p>
+                        <p className="text-gray-400 text-lg mb-2">
+                            <span className="font-semibold text-blue-500">Data:</span> {new Date(pelicula.data).toLocaleDateString('es-ES')}
+                        </p>
                         <p className="text-gray-300 text-lg">
                             <span className="font-semibold text-blue-500">Descripción:</span> {pelicula.descripcion}
                         </p>

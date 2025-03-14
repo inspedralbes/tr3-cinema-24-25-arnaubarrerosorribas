@@ -36,4 +36,14 @@
 
             return response()->json($response);
         }
+
+        public function esAdmin(Request $request) {
+            $user = $request->user();
+        
+            if ($user->isAdmin == 1) {
+                return response()->json(true);
+            } else {
+                return response()->json(false);
+            }
+        }
     }

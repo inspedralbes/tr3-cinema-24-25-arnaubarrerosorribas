@@ -15,6 +15,7 @@
 
                 $table->string("imagen")->nullable();
                 $table->string("descripcion", 1000);
+                $table->date("data");
                 $table->timestamps();
             });
         }

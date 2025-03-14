@@ -9,6 +9,7 @@
             'categoria_id',
             'imagen',
             'descripcion',
+            'data',
         ];
 
         public function categoria(){

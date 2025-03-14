@@ -47,6 +47,7 @@
                                 "categoria"=>$pelicula->categoria->categoria, // Nom de la categoria
                                 "id_categoria"=>$pelicula->categoria,
                                 "imagen"=>$pelicula->imagen,
+                                "data"=>$pelicula->data,
                             ];
                         });
             return response()->json($peliculas);
@@ -54,33 +55,43 @@
 
         public function publicarPelicula(Request $request) {
             $peliculaExistent = peliculas::where('nombre_pelicula', $request->nombre_pelicula)->first();
-            if($peliculaExistent){
+            if ($peliculaExistent) {
                 return response()->json([
-                    'message' => 'La pelicula ja existeix.'
+                    'message' => 'La película ja existeix.'
                 ], 409);
             }
-
-            $request->validate([ 'imagen' => // Validar el que s'ha compartit
-                'required|image|mimes:jpg,png,jpeg,webp|max:2048',
+        
+            $fechaExistente = peliculas::where('data', $request->data)->first();
+            if ($fechaExistente) {
+                return response()->json([
+                    'message' => 'Ja existeix una pel·lícula amb aquesta data'
+                ], 409);
+            }
+        
+            $request->validate([
+                'imagen' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048',
+                'data' => 'required|date|unique:peliculas,data'
             ]);
-
-            $rutaImagen = null;  // Variable per assignar la ruta de l'imatge
-            if ($request->hasFile('imagen')){ // Assignar la ruta de l'imatge
+        
+            $rutaImagen = null;
+            if ($request->hasFile('imagen')) {
                 $rutaImagen = $request->file('imagen')->store('peliculas', 'public');
             }
-
+        
             peliculas::create([
                 'nombre_pelicula' => $request->nombre_pelicula,
                 'categoria_id' => $request->categoria_id,
                 'disponible' => 0,
                 'imagen' => $rutaImagen,
                 'descripcion' => $request->descripcion,
+                'data' => $request->data
             ]);
-
+        
             return response()->json([
-                'Missatge' => 'Pel·licula creada correctament.',
+                'Missatge' => 'Pel·lícula creada correctament'
             ], 201);
         }
+        
 
         public function seleccionada($id) {
             $pelicula = peliculas::with('categoria')
@@ -93,6 +104,7 @@
                                         "categoria"=>$pelicula->categoria->categoria,
                                         "imagen"=>$pelicula->imagen,
                                         "descripcion"=>$pelicula->descripcion,
+                                        "data"=>$pelicula->data,
                                     ];
                                 });
             return response()->json($pelicula);

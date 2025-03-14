@@ -310,3 +310,26 @@ export const userInfo = async (Token) => {
         throw error;
     }
 };
+
+export const isAdminFetch = async (Token) => {
+    try {
+        const response = await fetch(`${Host}/autentificacio/esAdmin`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};
