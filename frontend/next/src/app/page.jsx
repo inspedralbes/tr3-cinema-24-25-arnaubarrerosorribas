@@ -25,7 +25,7 @@ export default function Home() {
         {
             title: "Top Boy",
             description: "La icònica nina en una aventura èpica.",
-            image: "https://imgs.search.brave.com/sF73a2caKYurQiSrdHlzC6fjR5ikIDWyGS2HIQazKIY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9waWNz/LmZpbG1tYWZmaW5p/dHkuY29tL3RvcF9i/b3ktODQyMzI3NDk0/LW1tZWQuanBn"
+            image: "https://imgs.search.brave.com/sF73a2caKYurQiSrdHlzC6fjR5ikIDWyGS2HIQazKIY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9waWNz/LmZpbG1hZmZpbml0/eS5jb20vdG9wX2Jv/eS04NDIzMjc0OTQt/bW1lZC5qcGc"
         }
     ];
 
@@ -55,13 +55,7 @@ export default function Home() {
                             <a href="#cartellera" className="hover:text-blue-500 transition-colors">Cartellera</a>
                             <a href="#horaris" className="hover:text-blue-500 transition-colors">Horaris</a>
                             <a href="#ubicacio" className="hover:text-blue-500 transition-colors">Ubicació</a>
-                            <button
-                                onClick={() => {
-                                    console.log("Button clicked");
-                                    router.push('/user/login');
-                                }}
-                                className="hover:text-blue-500 transition-colors flex"
-                            >
+                            <button onClick={() => { router.push('/user/login'); }} className="hover:text-blue-500 transition-colors flex" >
                                 <LogIn className="w-5 h-5 mr-[20px]" />
                                 Iniciar Sessió
                             </button>
