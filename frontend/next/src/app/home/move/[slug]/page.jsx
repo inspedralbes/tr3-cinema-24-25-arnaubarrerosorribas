@@ -1,10 +1,8 @@
 'use client';
 const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
-import Swal from 'sweetalert2';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useParams,useRouter } from 'next/navigation';
 import { peliculaSeleccionada, PeliculasOcupadasPelicula, CompraEntradas } from '../../../plugins/communicationManager';
 
 export default function Page() {

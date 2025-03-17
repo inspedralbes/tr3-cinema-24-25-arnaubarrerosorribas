@@ -10,6 +10,7 @@
             'imagen',
             'descripcion',
             'data',
+            'preu_entrada',
         ];
 
         public function categoria(){
