@@ -94,7 +94,7 @@ export default function CatalogPelicules() {
                                         <p className="text-white font-semibold text-xl">{pelicula.nombre_pelicula}</p>
                                         <p className="text-white">Categoría: {pelicula.id_categoria.categoria}</p>
                                         <p className='text-white'>Fecha: {new Date(pelicula.data).toLocaleDateString('es-ES')}</p>
-                                        <button className="mt-3 w-full bg-gold text-black py-2 px-4 hover:bg-blue-400 cursor-pointer transition duration-200" onClick={() => reedireccionar(pelicula.id - 1)} >
+                                        <button className="mt-3 w-full bg-gold text-black py-2 px-4 hover:bg-blue-400 cursor-pointer transition duration-200 text-white" onClick={() => reedireccionar(pelicula.id - 1)} >
                                             Comprar Entrada
                                         </button>
                                     </div>

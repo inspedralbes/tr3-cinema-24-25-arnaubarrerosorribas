@@ -41,7 +41,7 @@ export default function Page() {
     };
 
     const ferReserva = async () => {
-        const idUser = localStorage.getItem('user ID');
+        const idUser = localStorage.getItem('User ID');
         const data = {
             idUser,
             pelicula: slug,

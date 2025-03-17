@@ -4,6 +4,7 @@
     use App\Models\User;
     use Illuminate\Http\Request;
     use App\Models\EntradasCompradas;
+    use Illuminate\Support\Facades\Log;
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Mail;
 
@@ -21,10 +22,12 @@
         }
 
         public function fer_compra(Request $request) {
+            Log::info($request->idUser);
+
             $email_cliente = User::select('email')
                 ->where('id', $request->idUser)
                 ->first();
-        
+
             $butacasOcupadas = EntradasCompradas::where('pelicula_id', $request->pelicula)
                 ->whereIn('fila', array_column($request->butacas, 'fila'))
                 ->whereIn('columna', array_column($request->butacas, 'columna'))
