@@ -50,7 +50,6 @@ export default function Page() {
                 return { fila, columna };
             })
         };
-        console.log(data);
 
         try {
             const response = await CompraEntradas(data);
