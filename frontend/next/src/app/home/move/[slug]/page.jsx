@@ -1,6 +1,8 @@
 'use client';
 const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { peliculaSeleccionada, PeliculasOcupadasPelicula, CompraEntradas } from '../../../plugins/communicationManager';
@@ -8,7 +10,9 @@ import { peliculaSeleccionada, PeliculasOcupadasPelicula, CompraEntradas } from 
 export default function Page() {
     const filas = 12;
     const colum = 10;
+    const router = useRouter();
     const { slug } = useParams();
+    const Swal = require('sweetalert2');
     const [mostrarButacas, setMostrarButacas] = useState(false);
     const [varButacasOcupadas, setVarButacasOcupadas] = useState([]);
     const [butacasSeleccionadas, setButacasSeleccionadas] = useState([]);
@@ -54,6 +58,11 @@ export default function Page() {
         try {
             const response = await CompraEntradas(data);
             console.log(response);
+            Swal.fire({
+                title: "Compra realitzada",
+                icon: "success"
+            });
+            router.push('/user')
         } catch (error) {
             console.log(error);
         }
@@ -128,7 +137,7 @@ export default function Page() {
                             <Image src="/screen.svg" width={800} height={100} alt="Pantalla" className="mx-auto" />
                         </div>
                         <div className="flex flex-col gap-2">
-                        {Array.from({ length: filas }).map((_, rowIndex) => (
+                            {Array.from({ length: filas }).map((_, rowIndex) => (
                                 <div key={rowIndex} className="flex gap-2 justify-center">
                                     {Array.from({ length: colum }).map((_, colIndex) => {
                                         const fila = rowIndex + 1;
