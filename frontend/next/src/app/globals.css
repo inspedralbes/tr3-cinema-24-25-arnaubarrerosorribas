@@ -22,3 +22,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  background-image: linear-gradient(to right, #3b82f6,#97bfff, #bdd3ff, #ecf1fc);
+  animation: gradient-x 7s ease infinite;
+}

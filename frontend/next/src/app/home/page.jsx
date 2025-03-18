@@ -62,22 +62,30 @@ export default function CatalogPelicules() {
     }, []);
 
     return (
-        <div className="bg-black min-h-screen p-6">
-            <h1 className="text-center text-4xl font-bold text-blue-200 mb-6">Cartelera de Cine</h1>
-            <div className="p-6 max-w-[1250px] m-auto">
-                <Image onClick={() => router.push('/user')} className='fixed bottom-10 right-5 cursor-pointer bg-black z-[999] hover:bg-blue-300 transition-[3s] h-[40px] w-[40px] rounded-[100px]' src="/user.svg" width={60} height={60} alt="User img" />
+        <div className="h-[100vh] flex flex-col items-center justify-center animate-gradient-x">
+            <h1 className="text-3xl h-[10vh] font-bold">Cinema's DaDaby</h1>
 
-                <div className='flex items-center justify-between mb-6'>
-                    <select onChange={(e) => setFiltro(e.target.value)} className="w-full p-2 bg-gray-800 border border-gray-700 text-white outline-none focus:ring-2 focus:ring-gold focus:border-transparent" >
-                        <option value="" className="bg-gray-800 text-white">Totes les categories</option>
+            <div className='h-[85vh] w-[90%] overflow-y-auto max-w-[1400px]'>
+                <Image
+                    className='fixed bottom-15 right-15 cursor-pointer'
+                    onClick={() => router.push('/user')}
+                    src="/user.svg"
+                    width={50}
+                    height={50}
+                    alt="User img"
+                />
+
+                <div className="p-4">
+                    <select className='w-[95%] outline-0 cursor-pointer p-2 bg-white' onChange={(e) => setFiltro(e.target.value)}>
+                        <option value="">Totes les categories</option>
                         {categorias.map((categoria, index) => (
-                            <option key={index} value={`${index}`} className="bg-gray-800 text-white">
+                            <option key={index} value={`${index}`}>
                                 {categoria.categoria}
                             </option>
                         ))}
                     </select>
 
-                    <button onClick={() => eliminarFiltro()} className="m-0 size-[120px] p-0 text-red-500 cursor-pointer" >
+                    <button onClick={() => eliminarFiltro()} className='text-red-500 m-auto align-center cursor-pointer w-[5%]'>
                         X
                     </button>
                 </div>
@@ -85,23 +93,28 @@ export default function CatalogPelicules() {
                 {loading ? (
                     <p className="text-white-900 text-center">Cargando...</p>
                 ) : peliculasFiltradas.length > 0 ? (
-                    <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {peliculasFiltradas.map((pelicula, index) => (
-                                <div key={index} className="bg-gray-800 p-4 shadow-lg transform transition duration-500 hover:scale-105">
-                                    <img className="w-full h-[250px] object-cover rounded-lg" src={`${VarPelicula}${pelicula.imagen}`} alt={pelicula.nombre_pelicula} />
-                                    <div className="mt-4">
-                                        <p className="text-white font-semibold text-xl">{pelicula.nombre_pelicula}</p>
-                                        <p className="text-white">Categoría: {pelicula.id_categoria.categoria}</p>
-                                        <p className='text-white'>Fecha: {new Date(pelicula.data).toLocaleDateString('es-ES')}</p>
-                                        <button className="mt-3 w-full bg-gold text-black py-2 px-4 hover:bg-blue-400 cursor-pointer transition duration-200 text-white" onClick={() => reedireccionar(pelicula.id - 1)} >
-                                            Comprar Entrada
-                                        </button>
-                                    </div>
+                    <div className="grid grid-cols-4 gap-4 p-4">
+                        {peliculasFiltradas.map((pelicula, index) => (
+                            <div key={index} className="border rounded-xl border-solid border-black bg-blue-200">
+                                <img
+                                    src={`${VarPelicula}${pelicula.imagen}`}
+                                    alt={pelicula.nombre_pelicula}
+                                    className="w-full rounded-t-xl bg-black h-[250px]"
+                                />
+                                <div className="mt-2 p-2">
+                                    <p className="font-semibold">{pelicula.nombre_pelicula}</p>
+                                    <p>Categoría: {pelicula.id_categoria.categoria}</p>
+                                    <p>Fecha: {new Date(pelicula.data).toLocaleDateString('es-ES')}</p>
+                                    <button
+                                        onClick={() => reedireccionar(pelicula.id - 1)}
+                                        className="cursor-pointer mt-2 rounded-md w-[100%] bg-blue-500 text-white px-4 py-2 hover:bg-blue-600"
+                                    >
+                                        Comprar Entrada
+                                    </button>
                                 </div>
-                            ))}
-                        </div>
-                    </>
+                            </div>
+                        ))}
+                    </div>
                 ) : (
                     <p className="text-white text-center">No hay películas disponibles.</p>
                 )}
