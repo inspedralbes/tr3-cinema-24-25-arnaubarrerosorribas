@@ -40,5 +40,5 @@ body {
 .animate-gradient-x {
   background-size: 200% 200%;
   background-image: linear-gradient(to right, #3b82f6,#97bfff, #bdd3ff, #ecf1fc);
-  animation: gradient-x 7s ease infinite;
+  animation: gradient-x 5s ease infinite;
 }

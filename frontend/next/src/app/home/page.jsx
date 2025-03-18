@@ -65,9 +65,9 @@ export default function CatalogPelicules() {
         <div className="h-[100vh] flex flex-col items-center justify-center animate-gradient-x">
             <h1 className="text-3xl h-[10vh] font-bold">Cinema's DaDaby</h1>
 
-            <div className='h-[85vh] w-[90%] overflow-y-auto max-w-[1400px]'>
+            <div className='shadow-2xl rounded-xl h-[85vh] w-[90%] overflow-y-auto max-w-[1400px]'>
                 <Image
-                    className='fixed bottom-15 right-15 cursor-pointer'
+                    className='bg-blue-300 rounded-[200px] fixed bottom-15 right-15 cursor-pointer z-index-9999'
                     onClick={() => router.push('/user')}
                     src="/user.svg"
                     width={50}
@@ -76,7 +76,7 @@ export default function CatalogPelicules() {
                 />
 
                 <div className="p-4">
-                    <select className='w-[95%] outline-0 cursor-pointer p-2 bg-white' onChange={(e) => setFiltro(e.target.value)}>
+                    <select className='w-[95%] rounded-xl outline-0 cursor-pointer p-2 bg-white' onChange={(e) => setFiltro(e.target.value)}>
                         <option value="">Totes les categories</option>
                         {categorias.map((categoria, index) => (
                             <option key={index} value={`${index}`}>
@@ -93,7 +93,7 @@ export default function CatalogPelicules() {
                 {loading ? (
                     <p className="text-white-900 text-center">Cargando...</p>
                 ) : peliculasFiltradas.length > 0 ? (
-                    <div className="grid grid-cols-4 gap-4 p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                         {peliculasFiltradas.map((pelicula, index) => (
                             <div key={index} className="border rounded-xl border-solid border-black bg-blue-200">
                                 <img

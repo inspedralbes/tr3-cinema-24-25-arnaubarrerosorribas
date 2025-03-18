@@ -76,7 +76,7 @@ export default function CatalogPelicules() {
     const groupedData = groupByCompraConjunta(infoUsuari);
 
     return (
-        <div className="bg-gray-900 min-h-screen p-8">
+        <div className="min-h-screen flex flex-col items-center justify-center animate-gradient-x p-4">
             <h1 className="text-3xl font-bold text-center text-white mb-8">Compres realitzades</h1>
 
             {admin && (
@@ -90,14 +90,14 @@ export default function CatalogPelicules() {
                 </div>
             )}
 
-            <div className="space-y-6">
+            <div className="w-full max-w-4xl space-y-6">
                 {Object.keys(groupedData).map((idCompraConjunta) => (
-                    <div key={idCompraConjunta} className="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <div key={idCompraConjunta} className="w-full">
                         <div className="space-y-4">
                             {groupedData[idCompraConjunta].map((entrada, index) => (
                                 <div key={index} className="bg-gray-700 rounded-lg p-4 shadow-md">
                                     <h3 className="text-xl font-semibold text-white mb-2">Película: {entrada.pelicula}</h3>
-                                    <h3 className="text-xl font-semibold text-white mb-2">Preu Total: { entrada.preuTotal }</h3>
+                                    <h3 className="text-xl font-semibold text-white mb-2">Preu Total: {entrada.preuTotal}</h3>
                                     <div className="ml-4">
                                         <h4 className="text-lg font-medium text-gray-300 mb-2">Butacas:</h4>
                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
