@@ -39,6 +39,7 @@
         public function peliculesDisponiblesCategorias() {
             $peliculas = peliculas::with('categoria')
                         ->where('disponible', 1)
+                        ->where('data', '>=', today())
                         ->get()
                         ->map(function ($pelicula){
                             return [
