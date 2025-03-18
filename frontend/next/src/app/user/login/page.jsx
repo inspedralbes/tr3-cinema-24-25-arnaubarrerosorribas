@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '../../plugins/communicationManager';
 
@@ -26,6 +26,13 @@ export default function LoginForm() {
     const reedireccionarRegistro = () => {
         router.push('/user/register');
     };
+
+    useEffect(() => {
+        const storedParam = localStorage.getItem('Login Token');
+        if (storedParam != null) {
+            router.push('/home')
+        }
+    }, []);
 
     return (
         <div className="min-h-screen bg-black flex items-center justify-center p-4">

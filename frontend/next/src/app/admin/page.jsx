@@ -21,7 +21,7 @@ export default function Page() {
             const response = await isAdminFetch(token);
             console.log(response)
             if (response === false) {
-                router.push('/user/login');
+                router.push('/home');
             } else {
                 setIsAdmin(true); 
             }
