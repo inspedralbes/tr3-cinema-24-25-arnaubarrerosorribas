@@ -97,6 +97,7 @@ export default function CatalogPelicules() {
                             {groupedData[idCompraConjunta].map((entrada, index) => (
                                 <div key={index} className="bg-gray-700 rounded-lg p-4 shadow-md">
                                     <h3 className="text-xl font-semibold text-white mb-2">Película: {entrada.pelicula}</h3>
+                                    <h3 className="text-xl font-semibold text-white mb-2">Preu Total: { entrada.preuTotal }</h3>
                                     <div className="ml-4">
                                         <h4 className="text-lg font-medium text-gray-300 mb-2">Butacas:</h4>
                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">

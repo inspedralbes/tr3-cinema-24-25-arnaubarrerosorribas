@@ -84,14 +84,14 @@
                 'disponible' => 0,
                 'imagen' => $rutaImagen,
                 'descripcion' => $request->descripcion,
-                'data' => $request->data
+                'data' => $request->data,
+                'preu_entrada' => $request->preu_entrada,
             ]);
         
             return response()->json([
                 'Missatge' => 'Pel·lícula creada correctament'
             ], 201);
         }
-        
 
         public function seleccionada($id) {
             $pelicula = peliculas::with('categoria')
@@ -105,6 +105,7 @@
                                         "imagen"=>$pelicula->imagen,
                                         "descripcion"=>$pelicula->descripcion,
                                         "data"=>$pelicula->data,
+                                        "preu_entrada"=>$pelicula->preu_entrada,
                                     ];
                                 });
             return response()->json($pelicula);

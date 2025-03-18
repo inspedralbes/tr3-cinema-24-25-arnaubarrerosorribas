@@ -24,6 +24,7 @@
 
                 return [
                     'id_compra_conjunta' => $entradasConjuntas->first()->id_compra_conjunta,
+                    'preuTotal' => $entradasConjuntas->first()->preuTotal,
                     'pelicula' => $entradasConjuntas->first()->pelicula->nombre_pelicula ?? 'Película no disponible',
                     'butacas' => $entradasConjuntas->map(function ($entrada) {
                         return [

@@ -9,6 +9,7 @@
             'cliente_id',
             'fila',
             'columna',
+            'preuTotal',
         ];
 
         public function cliente(){

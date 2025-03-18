@@ -45,6 +45,7 @@
                     'id_compra_conjunta' => $nuevoIdCompra,
                     'pelicula_id' => $request->pelicula,
                     'cliente_id' => $request->idUser,
+                    'preuTotal' => $request->preuTotal,
                     'fila' => $butaca['fila'],
                     'columna' => $butaca['columna'],
                 ]);

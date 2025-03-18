@@ -4,12 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { categoriasCCMM, publicarResposta } from "../../../plugins/communicationManager";
 
 export default function AfegirPeliculaForm() {
-    const [categorias, setCategorias] = useState([]);
-    const [nombre_pelicula, setNombrePelicula] = useState("");
-    const [descripcion, setDescripcion] = useState("");
-    const [categoria, setCategoria] = useState("");
-    const [imagen, setImagen] = useState(null);
     const [data, setdata] = useState("");
+    const [imagen, setImagen] = useState(null);
+    const [categoria, setCategoria] = useState("");
+    const [categorias, setCategorias] = useState([]);
+    const [descripcion, setDescripcion] = useState("");
+    const [preu_entrada,setPreu_entrada] = useState("");
+    const [nombre_pelicula, setNombrePelicula] = useState("");
 
     const fetchCategorias = async () => {
         try {
@@ -31,6 +32,7 @@ export default function AfegirPeliculaForm() {
         if (imagen) {
             formData.append("imagen", imagen);
         }
+        formData.append("preu_entrada", preu_entrada);
 
         try {
             const response = await publicarResposta(formData);
@@ -64,6 +66,13 @@ export default function AfegirPeliculaForm() {
                         value={descripcion} onChange={(e) => setDescripcion(e.target.value)} required
                         className="resize-none h-[100px] mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     ></textarea>
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Preu Entrada</label>
+                    <input id="description" placeholder="Descripció" rows="4" type='num'
+                        value={preu_entrada} onChange={(e) => setPreu_entrada(e.target.value)} required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"                    />
                 </div>
 
                 <div className="mb-4">

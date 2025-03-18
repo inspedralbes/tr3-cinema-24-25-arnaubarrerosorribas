@@ -17,6 +17,7 @@
 
                 $table->integer("fila");
                 $table->integer("columna");
+                $table->integer("preuTotal");
                 $table->timestamp("updated_at")->nullable();
                 $table->timestamp("created_at")->nullable();
             });

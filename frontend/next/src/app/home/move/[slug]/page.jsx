@@ -11,6 +11,7 @@ export default function Page() {
     const router = useRouter();
     const { slug } = useParams();
     const Swal = require('sweetalert2');
+    const [preuTotal, setPreuTotal] = useState(0);
     const [mostrarButacas, setMostrarButacas] = useState(false);
     const [varButacasOcupadas, setVarButacasOcupadas] = useState([]);
     const [butacasSeleccionadas, setButacasSeleccionadas] = useState([]);
@@ -47,6 +48,7 @@ export default function Page() {
         const data = {
             idUser,
             pelicula: slug,
+            preuTotal: preuTotal,
             butacas: butacasSeleccionadas.map(butaca => {
                 const [fila, columna] = butaca.split('-').map(Number);
                 return { fila, columna };
@@ -70,8 +72,10 @@ export default function Page() {
         const butaca = `${fila}-${columna}`;
         if (butacasSeleccionadas.includes(butaca)) {
             setButacasSeleccionadas(butacasSeleccionadas.filter((b) => b !== butaca));
+            setPreuTotal((prevTotal) => prevTotal - varPeliculaSeleccionada[0].preu_entrada);
         } else {
             setButacasSeleccionadas([...butacasSeleccionadas, butaca]);
+            setPreuTotal((prevTotal) => prevTotal + varPeliculaSeleccionada[0].preu_entrada);
         }
     };
 
@@ -127,6 +131,10 @@ export default function Page() {
             {mostrarButacas && (
                 <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
                     <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl overflow-y-auto">
+                        <div>
+                            <h1>Preu Total</h1>
+                            {preuTotal}
+                        </div>
                         <div className='flex justify-between mb-4'>
                             <button onClick={cerrarSala} className="text-red-500 font-semibold text-3xl hover:scale-110 transition transform duration-200">X</button>
                             <button onClick={ferReserva} className='bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition duration-300'>Finalizar y comprar</button>
@@ -147,7 +155,9 @@ export default function Page() {
                                         return (
                                             <div key={columna} className={`cursor-pointer ${esOcupada ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110 transition transform duration-200'}`} onClick={() => !esOcupada && seleccionarButaca(fila, columna)}>
                                                 <Image src="/seat.svg" width={40} height={40} alt="Butaca"
-                                                    style={{ filter: esOcupada ? 'grayscale(80%)' : estaSeleccionada ? 'invert(70%) sepia(99%) saturate(9000%)' : 'none', }}
+                                                    style={{ filter: esOcupada ? 'grayscale(80%)' 
+                                                                    : estaSeleccionada ? `invert(70%) sepia(99%) saturate(9000%)` 
+                                                                    : 'none', }}
                                                 />
                                             </div>
                                         );
