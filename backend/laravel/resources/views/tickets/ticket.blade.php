@@ -8,4 +8,4 @@
     <body>
         Compra realitzada amb exit
     </body>
-</html>
+</html> 
