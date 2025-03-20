@@ -12,15 +12,24 @@ export default function Page() {
     const router = useRouter();
     const { slug } = useParams();
     const Swal = require('sweetalert2');
+    
     const [preuTotal, setPreuTotal] = useState(0);
     const [mostrarButacas, setMostrarButacas] = useState(false);
     const [varButacasOcupadas, setVarButacasOcupadas] = useState([]);
     const [butacasSeleccionadas, setButacasSeleccionadas] = useState([]);
     const [varPeliculaSeleccionada, setVarPeliculaSeleccionada] = useState([]);
 
-    socket.on('newTicket', (ticket) => {
-        console.log(ticket);
-    });
+    // Escuchar nuevos tickets en tiempo real
+    useEffect(() => {
+        socket.on('newTicket', (ticket) => {
+            console.log("Nuevo ticket recibido:", ticket);
+            setVarButacasOcupadas((prevButacas) => [...prevButacas, ...ticket.butacas]);
+        });
+
+        return () => {
+            socket.off('newTicket');
+        };
+    }, []);
 
     const mostrarSeleccionarButaca = () => {
         setMostrarButacas(true);
@@ -62,14 +71,16 @@ export default function Page() {
 
         try {
             const response = await CompraEntradas(data);
-            console.log(response)
-            socket.emit('newTicket', response);
+            console.log("Compra exitosa:", response);
+
+            // Emitir evento para actualizar en tiempo real a otros clientes
+            socket.emit('newTicket', { pelicula: slug, butacas: data.butacas });
 
             Swal.fire({
-                title: "Compra realitzada",
+                title: "Compra realizada",
                 icon: "success"
             });
-            router.push('/user')
+            router.push('/user');
         } catch (error) {
             console.log(error);
         }
@@ -79,10 +90,10 @@ export default function Page() {
         const butaca = `${fila}-${columna}`;
         if (butacasSeleccionadas.includes(butaca)) {
             setButacasSeleccionadas(butacasSeleccionadas.filter((b) => b !== butaca));
-            setPreuTotal((prevTotal) => prevTotal - varPeliculaSeleccionada[0].preu_entrada);
+            setPreuTotal((prevTotal) => prevTotal - varPeliculaSeleccionada[0]?.preu_entrada || 0);
         } else {
             setButacasSeleccionadas([...butacasSeleccionadas, butaca]);
-            setPreuTotal((prevTotal) => prevTotal + varPeliculaSeleccionada[0].preu_entrada);
+            setPreuTotal((prevTotal) => prevTotal + varPeliculaSeleccionada[0]?.preu_entrada || 0);
         }
     };
 
@@ -95,10 +106,10 @@ export default function Page() {
     useEffect(() => {
         const storedParam = localStorage.getItem('Login Token');
         if (slug && storedParam != null) {
-            fetchPeliculaConcreta(slug);
-            fetchButacasOcupadas(slug);
+            fetchPeliculaConcreta();
+            fetchButacasOcupadas();
         } else {
-            router.push('/user/login')
+            router.push('/user/login');
         }
     }, [slug]);
 
@@ -123,13 +134,8 @@ export default function Page() {
                             <p className='mt-2'>
                                 <span className='font-semibold'>Fecha:</span> {new Date(pelicula.data).toLocaleDateString('es-ES')}
                             </p>
-                            <p className='mt-2 align-justify'>
-                                <span className='font-semibold'>Descripción:</span> {pelicula.descripcion}
-                            </p>
-                            <button
-                                className='mt-4 mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-                                onClick={mostrarSeleccionarButaca}
-                            >
+                            <button className='mt-4 mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+                                onClick={mostrarSeleccionarButaca}>
                                 Seleccionar butacas
                             </button>
                         </div>
@@ -137,74 +143,46 @@ export default function Page() {
                 </div>
             ))}
 
-
-            {varPeliculaSeleccionada.map((pelicula, index) => (
-                <div key={index}>
-                    {mostrarButacas && (
-                        <div className='fixed top-0 left-0 w-[100vw] h-[100vh] animate-gradient-x flex items-center justify-center p-4'>
-                            <div className='flex flex-col md:flex-row w-full max-w-6xl'>
-                                {/* Contenedor de butacas */}
-                                <div className="flex flex-col gap-2 w-full md:w-[50%] shadow-xl p-4">
-                                    <div className="text-center mb-6">
-                                        <Image src="/screen.svg" width={350} height={50} alt="Pantalla" className="mx-auto" />
-                                    </div>
-
-                                    {Array.from({ length: filas }).map((_, rowIndex) => (
-                                        <div key={rowIndex} className="flex gap-2 justify-center">
-                                            {Array.from({ length: colum }).map((_, colIndex) => {
-                                                const fila = rowIndex + 1;
-                                                const columna = colIndex + 1;
-                                                const butaca = `${fila}-${columna}`;
-                                                const estaSeleccionada = butacasSeleccionadas.includes(butaca);
-                                                const esOcupada = estaOcupada(fila, columna);
-
-                                                return (
-                                                    <div
-                                                        key={columna}
-                                                        className={`cursor-pointer ${esOcupada ? 'opacity-10 cursor-not-allowed' : 'hover:scale-110 transition transform duration-200'}`}
-                                                        onClick={() => !esOcupada && seleccionarButaca(fila, columna)}
-                                                    >
-                                                        <Image
-                                                            src="/seat.svg"
-                                                            width={25}
-                                                            height={25}
-                                                            alt="Butaca"
-                                                            style={{
-                                                                filter: esOcupada
-                                                                    ? 'grayscale(1000%)'
-                                                                    : estaSeleccionada
-                                                                        ? `invert(70%) sepia(99%) saturate(9000%)`
-                                                                        : 'none',
-                                                            }}
-                                                        />
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Contenedor de información de compra */}
-                                <div className='w-full md:w-[50%] flex flex-col gap-4 items-center justify-center p-4'>
-                                    <div className=''>
-                                        <h2><strong>Pel·licula</strong> {pelicula.nombre_pelicula} </h2>
-                                        <strong className='pr-[5px]'>Preu Total </strong> {preuTotal}€
-                                        <h2><strong>Data: </strong> {new Date(pelicula.data).toLocaleDateString('es-ES')} </h2>
-                                    </div>
-                                    <div className='gap-4 w-[300px]'>
-                                        <button onClick={cerrarSala} className='bg-red-500 w-[100%] mb-[20px] cursor-pointer text-white px-4 py-1 font-semibold hover:bg-red-600 transition duration-300'>
-                                            X Cancelar Compra
-                                        </button>
-                                        <button onClick={ferReserva} className='bg-blue-500 w-[100%] cursor-pointer text-white px-4 py-1 font-semibold hover:bg-blue-600 transition duration-300'>
-                                            ✔ Finalizar y comprar
-                                        </button>
-                                    </div>
-                                </div>
+            {mostrarButacas && (
+                <div className='fixed top-0 left-0 w-[100vw] h-[100vh] animate-gradient-x flex items-center justify-center p-4'>
+                    <div className='flex flex-col md:flex-row w-full max-w-6xl'>
+                        <div className="flex flex-col gap-2 w-full md:w-[50%] shadow-xl p-4">
+                            <div className="text-center mb-6">
+                                <Image src="/screen.svg" width={350} height={50} alt="Pantalla" className="mx-auto" />
                             </div>
+                            {Array.from({ length: filas }).map((_, rowIndex) => (
+                                <div key={rowIndex} className="flex gap-2 justify-center">
+                                    {Array.from({ length: colum }).map((_, colIndex) => {
+                                        const fila = rowIndex + 1;
+                                        const columna = colIndex + 1;
+                                        const butaca = `${fila}-${columna}`;
+                                        const estaSeleccionada = butacasSeleccionadas.includes(butaca);
+                                        const esOcupada = estaOcupada(fila, columna);
+
+                                        return (
+                                            <div key={columna} className={`cursor-pointer ${esOcupada ? 'opacity-10 cursor-not-allowed' : 'hover:scale-110 transition transform duration-200'}`}
+                                                onClick={() => !esOcupada && seleccionarButaca(fila, columna)}>
+                                                <Image src="/seat.svg" width={25} height={25} alt="Butaca"
+                                                    style={{
+                                                        filter: esOcupada ? 'grayscale(1000%)' : estaSeleccionada ? `invert(70%) sepia(99%) saturate(9000%)` : 'none',
+                                                    }} />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ))}
                         </div>
-                    )}
+                        <div className='w-full md:w-[50%] p-4 flex flex-col gap-4 items-center justify-center'>
+                            <button onClick={cerrarSala} className='bg-red-500 w-[100%] text-white px-4 py-1 font-semibold hover:bg-red-600'>
+                                X Cancelar Compra
+                            </button>
+                            <button onClick={ferReserva} className='bg-blue-500 w-[100%] text-white px-4 py-1 font-semibold hover:bg-blue-600'>
+                                ✔ Finalizar y comprar
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            ))}
+            )}
         </div>
     );
 }
