@@ -56,6 +56,6 @@
                     ->subject('Ticket | Cines Pedralbes');
             });
         
-            return response()->json($email_cliente, 201);
+            return response()->json($request, 201);
         }
     }

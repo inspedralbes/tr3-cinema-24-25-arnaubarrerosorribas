@@ -1,6 +1,7 @@
 'use client';
 const VarPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
+import { User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { peliculasDisponiblesAmbCategoria, categoriasCCMM } from '../plugins/communicationManager';
@@ -66,14 +67,9 @@ export default function CatalogPelicules() {
             <h1 className="text-3xl h-[10vh] font-bold">Cinema's DaDaby</h1>
 
             <div className='shadow-2xl rounded-xl h-[85vh] w-[90%] overflow-y-auto max-w-[1400px]'>
-                <Image
-                    className='bg-blue-300 rounded-[200px] fixed bottom-15 right-15 cursor-pointer z-index-9999'
-                    onClick={() => router.push('/user')}
-                    src="/user.svg"
-                    width={50}
-                    height={50}
-                    alt="User img"
-                />
+                <div onClick={() => router.push('/user')} className='border border-solid border-black rounded-full bg-blue-200 p-2 fixed bottom-10 right-10 cursor-pointer'>
+                    <User />
+                </div>
 
                 <div className="p-4">
                     <select className='w-[95%] rounded-xl outline-0 cursor-pointer p-2 bg-white' onChange={(e) => setFiltro(e.target.value)}>

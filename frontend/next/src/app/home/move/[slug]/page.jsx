@@ -2,6 +2,7 @@
 const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import socket from '../../../../services/socket';
 import { useParams, useRouter } from 'next/navigation';
 import { peliculaSeleccionada, PeliculasOcupadasPelicula, CompraEntradas } from '../../../plugins/communicationManager';
 
@@ -16,6 +17,10 @@ export default function Page() {
     const [varButacasOcupadas, setVarButacasOcupadas] = useState([]);
     const [butacasSeleccionadas, setButacasSeleccionadas] = useState([]);
     const [varPeliculaSeleccionada, setVarPeliculaSeleccionada] = useState([]);
+
+    socket.on('newTicket', (ticket) => {
+        console.log(ticket);
+    });
 
     const mostrarSeleccionarButaca = () => {
         setMostrarButacas(true);
@@ -57,7 +62,9 @@ export default function Page() {
 
         try {
             const response = await CompraEntradas(data);
-            console.log(response);
+            console.log(response)
+            socket.emit('newTicket', response);
+
             Swal.fire({
                 title: "Compra realitzada",
                 icon: "success"
@@ -186,10 +193,10 @@ export default function Page() {
                                     </div>
                                     <div className='gap-4 w-[300px]'>
                                         <button onClick={cerrarSala} className='bg-red-500 w-[100%] mb-[20px] cursor-pointer text-white px-4 py-1 font-semibold hover:bg-red-600 transition duration-300'>
-                                            X
+                                            X Cancelar Compra
                                         </button>
                                         <button onClick={ferReserva} className='bg-blue-500 w-[100%] cursor-pointer text-white px-4 py-1 font-semibold hover:bg-blue-600 transition duration-300'>
-                                            Finalizar y comprar
+                                            ✔ Finalizar y comprar
                                         </button>
                                     </div>
                                 </div>
