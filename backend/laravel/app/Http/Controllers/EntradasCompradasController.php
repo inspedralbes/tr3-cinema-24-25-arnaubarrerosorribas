@@ -23,7 +23,7 @@
 
         public function fer_compra(Request $request) {
             Log::info($request->idUser);
-
+            
             $email_cliente = User::select('email')
                 ->where('id', $request->idUser)
                 ->first();
@@ -39,6 +39,7 @@
         
             $ultimoIdCompra = EntradasCompradas::max('id_compra_conjunta') ?? 0;
             $nuevoIdCompra = $ultimoIdCompra + 1;
+            $preuTotal = $request->preuTotal;
         
             foreach ($request->butacas as $butaca) {
                 EntradasCompradas::create([
@@ -51,10 +52,10 @@
                 ]);
             }
         
-            Mail::send('tickets.ticket', [], function ($message) use ($email_cliente) {
+            Mail::send('tickets.ticket', ['preuTotal' => $preuTotal], function ($message) use ($email_cliente) {
                 $message->to($email_cliente->email)
-                    ->subject('Ticket | Cines Pedralbes');
-            });
+                        ->subject('Ticket | Cines Pedralbes');
+            });            
         
             return response()->json($request, 201);
         }

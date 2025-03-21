@@ -57,12 +57,12 @@ export default function Page() {
     }, []);    
 
     if (!isAdmin) {
-        return null; // O un spinner de carga si prefieres
+        return null;
     }
 
     return (
-        <div className="flex h-[100vh]">
-            <aside id="sidebar" className="w-64 bg-gray-800">
+        <div className="flex h-max">
+            <aside id="sidebar" className="w-64 bg-gray-800 min-h-screen">
                 <div className="p-4 flex justify-between items-center">
                     <div className="flex items-center">
                         <span className="ml-2 text-xl font-semibold text-white">Admin</span>
@@ -86,7 +86,7 @@ export default function Page() {
                 </nav>
             </aside>
 
-            <div className="flex-grow p-4 h-[100vh] bg-gray-100">
+            <div className="flex-grow p-4 bg-gray-100">
                 <div id='idAfegirPelicula' style={{ display: 'none' }}>
                     <AfegirPeliculaForm />
                 </div>

@@ -198,7 +198,7 @@ export default function Page() {
                             ))}
                         </div>
                         <div className='w-full md:w-[50%] p-4 flex flex-col gap-4 items-center justify-center'>
-                            <h1>Nom Pel·lícula: {NombrePelicula} </h1>
+                            <h1 className='text-xl font-bold'> {NombrePelicula} </h1>
                             <h1>{ preuTotal }€</h1>
                             <button onClick={cerrarSala} className='bg-red-500 w-[100%] text-white px-4 py-1 font-semibold hover:bg-red-600'>
                                 X Cancelar Compra

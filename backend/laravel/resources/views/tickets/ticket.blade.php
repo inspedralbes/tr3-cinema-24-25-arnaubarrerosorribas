@@ -7,5 +7,6 @@
     </head>
     <body>
         Compra realitzada amb exit
+        Preu Total: {{ $preuTotal }}€
     </body>
 </html> 
