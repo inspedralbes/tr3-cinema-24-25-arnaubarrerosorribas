@@ -10,7 +10,6 @@ const CanvasWithBackground = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    // Dibujar el fondo del ticket (solo una vez)
     const drawTicketBackground = () => {
       context.fillStyle = 'white';
       context.fillRect(0, 0, canvas.width, canvas.height);
@@ -43,15 +42,16 @@ const CanvasWithBackground = () => {
     };
 
     const erase = (x, y) => {
-      context.globalCompositeOperation = 'destination-out'; // Modo de borrado
+      context.globalCompositeOperation = 'destination-out';
       context.beginPath();
       context.arc(x, y, 30, 0, Math.PI * 2);
       context.fill();
-      context.globalCompositeOperation = 'source-over'; // Restaurar modo normal
+      context.globalCompositeOperation = 'source-over';
     };
 
     const handleMouseDown = (e) => {
       setIsDrawing(true);
+      setIsHovered(true);
       const { offsetX, offsetY } = getCanvasCoordinates(e);
       erase(offsetX, offsetY);
     };
@@ -68,20 +68,26 @@ const CanvasWithBackground = () => {
     };
 
     const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
+
+    // 🔹 En lugar de desactivar en mouseleave, lo desactivamos si hace clic fuera
+    const handleClickOutside = (e) => {
+      if (!canvas.contains(e.target)) {
+        setIsHovered(false);
+      }
+    };
 
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('mouseenter', handleMouseEnter);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('click', handleClickOutside);
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('mouseenter', handleMouseEnter);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [isDrawing, isHovered]);
 
