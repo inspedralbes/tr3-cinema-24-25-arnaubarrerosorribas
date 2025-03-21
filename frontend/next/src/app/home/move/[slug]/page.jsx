@@ -12,14 +12,15 @@ export default function Page() {
     const router = useRouter();
     const { slug } = useParams();
     const Swal = require('sweetalert2');
-    
+
     const [preuTotal, setPreuTotal] = useState(0);
+    const [NombrePelicula, setNombrePelicula] = useState('');
     const [mostrarButacas, setMostrarButacas] = useState(false);
     const [varButacasOcupadas, setVarButacasOcupadas] = useState([]);
     const [butacasSeleccionadas, setButacasSeleccionadas] = useState([]);
     const [varPeliculaSeleccionada, setVarPeliculaSeleccionada] = useState([]);
 
-    // Escuchar nuevos tickets en tiempo real
+    // Veure si hi han tickets en temps real
     useEffect(() => {
         socket.on('newTicket', (ticket) => {
             console.log("Nuevo ticket recibido:", ticket);
@@ -43,6 +44,7 @@ export default function Page() {
         try {
             const response = await peliculaSeleccionada(slug);
             setVarPeliculaSeleccionada(response);
+            setNombrePelicula(response[0].nombre_pelicula);
         } catch (error) {
             console.error(error);
         }
@@ -73,7 +75,7 @@ export default function Page() {
             const response = await CompraEntradas(data);
             console.log("Compra exitosa:", response);
 
-            // Emitir evento para actualizar en tiempo real a otros clientes
+            // Emitir event per actualitzar als altres usuaris
             socket.emit('newTicket', { pelicula: slug, butacas: data.butacas });
 
             Swal.fire({
@@ -88,12 +90,15 @@ export default function Page() {
 
     const seleccionarButaca = (fila, columna) => {
         const butaca = `${fila}-${columna}`;
+        const precioBase = varPeliculaSeleccionada[0]?.preu_entrada || 0;
+        const precioFinal = fila === 5 ? precioBase + 2 : precioBase;
+
         if (butacasSeleccionadas.includes(butaca)) {
             setButacasSeleccionadas(butacasSeleccionadas.filter((b) => b !== butaca));
-            setPreuTotal((prevTotal) => prevTotal - varPeliculaSeleccionada[0]?.preu_entrada || 0);
+            setPreuTotal((prevTotal) => prevTotal - precioFinal);
         } else {
             setButacasSeleccionadas([...butacasSeleccionadas, butaca]);
-            setPreuTotal((prevTotal) => prevTotal + varPeliculaSeleccionada[0]?.preu_entrada || 0);
+            setPreuTotal((prevTotal) => prevTotal + precioFinal);
         }
     };
 
@@ -127,16 +132,20 @@ export default function Page() {
 
                     <div className='w-full md:w-[60%] p-4 flex items-center justify-center'>
                         <div className='flex flex-col w-[90%]'>
-                            <h1 className='text-2xl font-bold'>{pelicula.nombre_pelicula}</h1>
+                            <h1 className='text-2xl font-bold'>{ NombrePelicula }</h1>
+                            
                             <p className='mt-2'>
                                 <span className='font-semibold'>Categoría:</span> {pelicula.categoria}
                             </p>
                             <p className='mt-2'>
                                 <span className='font-semibold'>Fecha:</span> {new Date(pelicula.data).toLocaleDateString('es-ES')}
                             </p>
+                            <p className='mt-2'>
+                                <span className='font-semibold'>Descripció:</span> {pelicula.descripcion}
+                            </p>
                             <button className='mt-4 mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
                                 onClick={mostrarSeleccionarButaca}>
-                                Seleccionar butacas
+                                {pelicula.data}
                             </button>
                         </div>
                     </div>
@@ -160,19 +169,37 @@ export default function Page() {
                                         const esOcupada = estaOcupada(fila, columna);
 
                                         return (
-                                            <div key={columna} className={`cursor-pointer ${esOcupada ? 'opacity-10 cursor-not-allowed' : 'hover:scale-110 transition transform duration-200'}`}
-                                                onClick={() => !esOcupada && seleccionarButaca(fila, columna)}>
-                                                <Image src="/seat.svg" width={25} height={25} alt="Butaca"
+                                            <div
+                                                key={columna}
+                                                className={`cursor-pointer ${esOcupada ? 'opacity-10 cursor-not-allowed' : 'hover:scale-110 transition transform duration-200'}`}
+                                                onClick={() => !esOcupada && seleccionarButaca(fila, columna)}
+                                            >
+                                                <Image
+                                                    src="/seat.svg"
+                                                    width={25}
+                                                    height={25}
+                                                    alt="Butaca"
                                                     style={{
-                                                        filter: esOcupada ? 'grayscale(1000%)' : estaSeleccionada ? `invert(70%) sepia(99%) saturate(9000%)` : 'none',
-                                                    }} />
+                                                        filter: esOcupada
+                                                            ? 'grayscale(1000%)'
+                                                            : estaSeleccionada
+                                                                ? 'invert(70%) sepia(99%) saturate(9000%)'
+                                                                : fila === 5
+                                                                    ? 'invert(100%) sepia() saturate(10000%) hue-rotate(0deg)'
+                                                                    : 'none',
+                                                    }}
+                                                />
                                             </div>
+
                                         );
+
                                     })}
                                 </div>
                             ))}
                         </div>
                         <div className='w-full md:w-[50%] p-4 flex flex-col gap-4 items-center justify-center'>
+                            <h1>Nom Pel·lícula: {NombrePelicula} </h1>
+                            <h1>{ preuTotal }€</h1>
                             <button onClick={cerrarSala} className='bg-red-500 w-[100%] text-white px-4 py-1 font-semibold hover:bg-red-600'>
                                 X Cancelar Compra
                             </button>

@@ -95,7 +95,7 @@ export default function CatalogPelicules() {
                                 <img
                                     src={`${VarPelicula}${pelicula.imagen}`}
                                     alt={pelicula.nombre_pelicula}
-                                    className="w-full rounded-t-xl bg-black h-[250px]"
+                                    className="w-full rounded-t-xl cover object-cover bg-black h-[250px]"
                                 />
                                 <div className="mt-2 p-2">
                                     <p className="font-semibold">{pelicula.nombre_pelicula}</p>
