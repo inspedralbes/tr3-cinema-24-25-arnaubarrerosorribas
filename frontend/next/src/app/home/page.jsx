@@ -93,7 +93,7 @@ export default function CatalogPelicules() {
                         {peliculasFiltradas.map((pelicula, index) => (
                             <div key={index} className="border rounded-xl border-solid border-black bg-blue-200">
                                 <img
-                                    src={`${VarPelicula}${pelicula.imagen}`}
+                                    src={`http://cine.a23arnbarsor.daw.inspedralbes.cat/laravel/public/${pelicula.imagen}`}
                                     alt={pelicula.nombre_pelicula}
                                     className="w-full rounded-t-xl cover object-cover bg-black h-[250px]"
                                 />

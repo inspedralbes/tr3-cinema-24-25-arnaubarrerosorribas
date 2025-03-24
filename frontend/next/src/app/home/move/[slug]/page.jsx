@@ -124,7 +124,7 @@ export default function Page() {
                 <div key={index} className='flex flex-col md:flex-row h-[80vh] w-[90%] border-2 border-gray-300 shadow-xl mb-4'>
                     <div className='w-full md:w-[40%] flex items-center justify-center'>
                         <img
-                            src={`${varPelicula}${pelicula.imagen}`}
+                            src={`http://cine.a23arnbarsor.daw.inspedralbes.cat/laravel/public/${pelicula.imagen}`}
                             alt={pelicula.nombre_pelicula}
                             className="h-[300px] w-[80%] object-cover bg-black"
                         />
