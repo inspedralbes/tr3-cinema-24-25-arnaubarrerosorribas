@@ -88,7 +88,6 @@
             }
 
             $cliente = User::where('email', $request->email)->first();
-            $comercio = User::where('id', $cliente->id)->first();
 
             if (!$cliente) {
                 return response()->json([
