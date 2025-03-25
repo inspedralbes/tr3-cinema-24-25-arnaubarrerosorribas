@@ -59,4 +59,14 @@
         
             return response()->json($request, 201);
         }
+
+        public function recaudacio() {
+            $peliculas = EntradasCompradas::join('peliculas', 'entradas_compradas.pelicula_id', '=', 'peliculas.id')
+                ->select('peliculas.id as id_pelicula', 'peliculas.nombre_pelicula as nom_pelicula')
+                ->selectRaw('COUNT(*) as total_butacas_compradas')
+                ->groupBy('peliculas.id', 'peliculas.nombre_pelicula')
+                ->get();
+        
+            return response()->json($peliculas);
+        }
     }

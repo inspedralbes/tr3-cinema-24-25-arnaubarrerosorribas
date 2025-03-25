@@ -1,13 +1,13 @@
 'use client';
 import Swal from 'sweetalert2';
-import Image from "next/image";
+import {Trash, Check, CircleOff} from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { totesPeliculas, eliminarPelicula } from "../../../plugins/communicationManager";
 
 export default function EliminarPeliculaForm() {
     const [loading, setLoading] = useState(true);
-    const [peliculas, setPeliculas] = useState("");
-
+    const [peliculas, setPeliculas] = useState([]);
+    
     const fetchPeliculas = async () => {
         try {
             const response = await totesPeliculas();
@@ -15,21 +15,25 @@ export default function EliminarPeliculaForm() {
         } catch (error) {
             console.error(error);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
-    const eliminarPeliculaFetch = async (index) => {
+    const eliminarPeliculaFetch = async (id) => {
         try {
-            const response = await eliminarPelicula(index);
+            await eliminarPelicula(id);
             Swal.fire({
                 title: "Pel·lícula eliminada correctament.",
                 icon: "success"
             });
+            await fetchPeliculas();
         } catch (error) {
             console.error(error);
+            Swal.fire({
+                title: "Error al eliminar la pel·lícula",
+                icon: "error"
+            });
         }
-        console.log(index)
     }
 
     useEffect(() => {
@@ -43,9 +47,9 @@ export default function EliminarPeliculaForm() {
             ) : peliculas.length > 0 ? (
                 <>
                     <div className="w-[90%] mx-auto space-y-4">
-                        {peliculas.map((pelicula, index) => (
+                        {peliculas.map((pelicula) => (
                             <div
-                                key={index}
+                                key={pelicula.id}
                                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4"
                             >
                                 <div className="flex items-center justify-between gap-4">
@@ -53,7 +57,6 @@ export default function EliminarPeliculaForm() {
                                         <h2 className="text-xl font-semibold text-blue-900">
                                             {pelicula.nombre_pelicula}
                                         </h2>
-                                        
                                     </div>
 
                                     <div className="flex items-center gap-6">
@@ -66,22 +69,22 @@ export default function EliminarPeliculaForm() {
                                         <div className="flex items-center">
                                             {pelicula.disponible === 1 ? (
                                                 <div className="flex items-center text-emerald-600">
-                                                    <Image src="/check.svg" alt="Trash Icon" width={20} height={20} />
+                                                    <Check size={20} />
                                                     <span>Disponible</span>
                                                 </div>
                                             ) : (
                                                 <div className="flex items-center text-red-500">
-                                                    <Image src="/unavailable.svg" alt="Unvailable Icon" width={20} height={20} />
+                                                    <CircleOff size={20} />
                                                     <span>No Disponible</span>
                                                 </div>
                                             )}
                                         </div>
 
                                         <button
-                                            onClick={() => eliminarPeliculaFetch(index)}
+                                            onClick={() => eliminarPeliculaFetch(pelicula.id)}
                                             className="flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-lg transition-colors duration-200"
                                         >
-                                            <Image src="/trash.svg" alt="Trash Icon" width={20} height={20} />
+                                            <Trash size={20} />
                                             <span>Eliminar</span>
                                         </button>
                                     </div>

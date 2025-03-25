@@ -1,6 +1,7 @@
 'use client';
 import Swal from 'sweetalert2';
 import Image from "next/image";
+import {Check,CircleOff,Pen} from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { categoriasCCMM, totesPeliculas, publicarModificacions } from "../../../plugins/communicationManager";
 
@@ -104,12 +105,12 @@ export default function EliminarPeliculaForm() {
                                         <div className="flex items-center">
                                             {pelicula.disponible === 1 ? (
                                                 <div className="flex items-center text-emerald-600">
-                                                    <Image src="/check.svg" alt="Trash Icon" width={20} height={20} />
+                                                    <Check size={20} />
                                                     <span>Disponible</span>
                                                 </div>
                                             ) : (
                                                 <div className="flex items-center text-red-500">
-                                                    <Image src="/unavailable.svg" alt="Unvailable Icon" width={20} height={20} />
+                                                    <CircleOff size={20} />
                                                     <span>No Disponible</span>
                                                 </div>
                                             )}
@@ -119,7 +120,7 @@ export default function EliminarPeliculaForm() {
                                             className="flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors duration-200"
                                             onClick={() => handleModificarClick(pelicula)}
                                         >
-                                            <Image src="/pen.svg" alt="Trash Icon" width={20} height={20} />
+                                            <Pen size={20} />
                                             <span>Modificar</span>
                                         </button>
                                     </div>

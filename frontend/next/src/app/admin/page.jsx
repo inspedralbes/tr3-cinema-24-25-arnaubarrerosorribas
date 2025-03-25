@@ -1,10 +1,12 @@
 'use client';
+import { DollarSign } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAdminFetch } from '../plugins/communicationManager';
 import AfegirPeliculaForm from '../components/admin/afegir-pelicula/AfegirPeliculaForm';
 import EliminarPeliculaForm from '../components/admin/eliminar-pelicula/EliminarPelicula';
 import ModificarPeliculaForm from '../components/admin/modificar-pelicula/ModificarPelicula';
+import Recaudacio from '../components/admin/recaudacio/Recaudacio';
 
 export default function Page() {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -35,6 +37,7 @@ export default function Page() {
         document.getElementById("idAfegirPelicula").style.display = "none";
         document.getElementById("idEliminarPelicula").style.display = "none";
         document.getElementById("idModificarPelicula").style.display = "none";
+        document.getElementById("idRecaudacio").style.display = "none";
     };
 
     const mostrarAfegirPelicula = () => {
@@ -50,6 +53,11 @@ export default function Page() {
     const mostrarModificarPelicula = () => {
         OcultarFuncionalitats();
         document.getElementById("idModificarPelicula").style.display = "block";
+    };
+
+    const mostrarRecaudacio = () => {
+        OcultarFuncionalitats();
+        document.getElementById("idRecaudacio").style.display = "block";
     };
 
     useEffect(() => {
@@ -82,6 +90,10 @@ export default function Page() {
                             <img width="20" height="20" src="https://img.icons8.com/ios/50/FFFFFF/delete-sign--v1.png" alt="delete-sign--v1" />
                             <span className="sidebar-text ml-[10px]">Eliminar Pel·lícula</span>
                         </p>
+                        <p onClick={mostrarRecaudacio} className="mb-[10px] group flex items-center px-2 py-2 text-base font-medium rounded-md text-white cursor-pointer hover:bg-gray-600 transition-[2s]">
+                            <DollarSign size={20} />
+                            <span className="sidebar-text ml-[10px]">Recaudació</span>
+                        </p>
                     </div>
                 </nav>
             </aside>
@@ -95,6 +107,9 @@ export default function Page() {
                 </div>
                 <div id="idEliminarPelicula" style={{ display: 'none' }}>
                     <EliminarPeliculaForm />
+                </div>
+                <div id="idRecaudacio" style={{ display: 'none' }}>
+                    <Recaudacio />
                 </div>
             </div>
         </div>

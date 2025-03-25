@@ -180,7 +180,7 @@ export const peliculasDisponiblesAmbCategoria = async () => {
 
 export const categoriasCCMM = async () => {
     try {
-        const response = await fetch(`${Host}/categorias/`, {
+        const response = await fetch(`${Host}/categorias`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -228,6 +228,30 @@ export const peliculas = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json(); 
+        return data;
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        throw error;
+    }
+};
+
+export const recaudacio = async () => {
+    const Token = localStorage.getItem('Login Token');
+    try {
+        const response = await fetch(`${Host}/pelicules/recaudacio`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Token}`,
             },
         });
 

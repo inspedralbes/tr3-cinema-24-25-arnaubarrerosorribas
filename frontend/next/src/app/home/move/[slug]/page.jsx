@@ -1,6 +1,7 @@
 'use client';
 const varPelicula = process.env.NEXT_PUBLIC_IMAGES;
 import Image from 'next/image';
+import { Armchair } from 'lucide-react'
 import { useEffect, useState } from 'react';
 import socket from '../../../../services/socket';
 import { useParams, useRouter } from 'next/navigation';
@@ -132,8 +133,8 @@ export default function Page() {
 
                     <div className='w-full md:w-[60%] p-4 flex items-center justify-center'>
                         <div className='flex flex-col w-[90%]'>
-                            <h1 className='text-2xl font-bold'>{ NombrePelicula }</h1>
-                            
+                            <h1 className='text-2xl font-bold'>{NombrePelicula}</h1>
+
                             <p className='mt-2'>
                                 <span className='font-semibold'>Categoría:</span> {pelicula.categoria}
                             </p>
@@ -174,32 +175,24 @@ export default function Page() {
                                                 className={`cursor-pointer ${esOcupada ? 'opacity-10 cursor-not-allowed' : 'hover:scale-110 transition transform duration-200'}`}
                                                 onClick={() => !esOcupada && seleccionarButaca(fila, columna)}
                                             >
-                                                <Image
-                                                    src="/seat.svg"
-                                                    width={25}
-                                                    height={25}
-                                                    alt="Butaca"
-                                                    style={{
-                                                        filter: esOcupada
-                                                            ? 'grayscale(1000%)'
-                                                            : estaSeleccionada
-                                                                ? 'invert(70%) sepia(99%) saturate(9000%)'
-                                                                : fila === 5
-                                                                    ? 'invert(100%) sepia() saturate(10000%) hue-rotate(0deg)'
-                                                                    : 'none',
-                                                    }}
+                                                <Armchair
+                                                    size={25}
+                                                    className={`
+                                                        ${esOcupada ? 'text-gray-400' : ''}
+                                                        ${estaSeleccionada ? 'text-red-500' : ''}
+                                                        ${!esOcupada && !estaSeleccionada && fila === 5 ? 'text-yellow-400' : ''}
+                                                        ${!esOcupada && !estaSeleccionada && fila !== 5 ? 'text-white' : ''}
+                                                    `}
                                                 />
                                             </div>
-
                                         );
-
                                     })}
                                 </div>
                             ))}
                         </div>
                         <div className='w-full md:w-[50%] p-4 flex flex-col gap-4 items-center justify-center'>
                             <h1 className='text-xl font-bold'> {NombrePelicula} </h1>
-                            <h1>{ preuTotal }€</h1>
+                            <h1>{preuTotal}€</h1>
                             <button onClick={cerrarSala} className='bg-red-500 w-[100%] text-white px-4 py-1 font-semibold hover:bg-red-600'>
                                 X Cancelar Compra
                             </button>
