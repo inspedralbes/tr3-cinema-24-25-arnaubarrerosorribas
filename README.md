@@ -10,7 +10,7 @@ Repositori del projecte de gestió de cinemes desenvolupat durant el curs 2024/2
 
 ## 📌 Descripció
 
-El projecte consisteix en una plataforma de gestió de cinemes que permet la compra d'entrades, la gestió de pel·lícules i la visualització de la recaptació.
+El projecte consisteix en una plataforma de gestió de cinemes que permet la compra d'entrades, la gestió de pel·lícules i la visualització de la recaptació. També incorpora WebSockets per veure en temps real les butaques que s'estan reservant.
 
 ## 🚀 Tecnologies Utilitzades
 
@@ -18,6 +18,7 @@ El projecte consisteix en una plataforma de gestió de cinemes que permet la com
 - **Front-end:** NEXT.js, Tailwind CSS
 - **Base de dades:** MySQL
 - **Autenticació:** Laravel Sanctum
+- **Temps real:** WebSockets amb Laravel Echo i Pusher
 
 ## ⚙️ Instal·lació i Execució
 
