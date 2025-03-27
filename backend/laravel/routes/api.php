@@ -5,8 +5,7 @@
     use App\Http\Controllers\CategoriesController;
     Use App\Http\Controllers\EntradasCompradasController;
     use App\Http\Controllers\auth\LoginRegisterController;
-use App\Models\EntradasCompradas;
-
+    
     Route::prefix('autentificacio')->group(function () {
         Route::post('login', [LoginRegisterController::class, 'login']);
         Route::post('register', [LoginRegisterController::class, 'registrar']);
